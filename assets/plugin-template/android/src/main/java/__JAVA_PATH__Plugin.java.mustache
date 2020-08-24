@@ -1,0 +1,21 @@
+package {{ PACKAGE_ID }};
+
+import com.getcapacitor.JSObject;
+import com.getcapacitor.NativePlugin;
+import com.getcapacitor.Plugin;
+import com.getcapacitor.PluginCall;
+import com.getcapacitor.PluginMethod;
+
+@NativePlugin(name = "{{ CLASS }}")
+public class {{ CLASS }}Plugin extends Plugin {
+    private {{ CLASS }} implementation = new {{ CLASS }}();
+
+    @PluginMethod
+    public void echo(PluginCall call) {
+        String value = call.getString("value");
+
+        JSObject ret = new JSObject();
+        ret.put("value", implementation.echo(value));
+        call.resolve(ret);
+    }
+}
