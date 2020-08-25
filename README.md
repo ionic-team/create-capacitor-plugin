@@ -24,3 +24,13 @@ You can also try the following methods to use this package:
 
 Separate npm options with a `--` separator, e.g. `npm init @capacitor/plugin -- [options]`.
 
+```
+--name <name> ............. npm package name (e.g. "capacitor-plugin-example")
+--package-id <id> ......... Unique plugin ID in reverse-DNS notation (e.g. "com.mycompany.plugins.example")
+--class-name <name> ....... Plugin class name (e.g. "Example")
+--repo <url> .............. URL to git repository (e.g. "https://github.com/example/repo")
+--author <author> ......... Author name and email (e.g. "Name <name@example.com>")
+--license <id> ............ SPDX License ID (e.g. "MIT")
+--description <text> ...... Short description of plugin features
+--dir <path> .............. Path of new plugins's directory
+```
