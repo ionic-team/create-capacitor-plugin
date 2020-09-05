@@ -24,7 +24,8 @@ export const gatherDetails = (
         type: 'text',
         name: 'dir',
         message: `What directory should be used for your plugin?\n`,
-        initial: 'my-plugin',
+        // no TS support for initial as a function
+        initial: ((prev: string) => prev.replace(/^@[^\/]+\//, '')) as any,
         validate: VALIDATORS.dir,
         format: value => value.trim(),
       },
