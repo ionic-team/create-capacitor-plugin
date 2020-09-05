@@ -1,5 +1,5 @@
 const help = `
-  Usage: npm init @capacitor/plugin -- [<path>] [options]
+  Usage: npm init @capacitor/plugin [<path>] [options]
 
   Options:
 

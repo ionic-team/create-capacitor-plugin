@@ -9,7 +9,7 @@ Generate a new Capacitor plugin.
 ## Usage
 
 ```
-npm init @capacitor/plugin -- [<path>] [options]
+npm init @capacitor/plugin [<path>] [options]
 ```
 
 :memo: `npm init <pkg>` requires npm 6+
@@ -21,8 +21,6 @@ You can also try the following methods to use this package:
 - `npm install -g @capacitor/create-plugin && create-capacitor-plugin`
 
 ### Options
-
-Separate npm options with a `--` separator, e.g. `npm init @capacitor/plugin -- [options]`.
 
 ```
 --name <name> ............. npm package name (e.g. "capacitor-plugin-example")
