@@ -62,6 +62,7 @@
     "@types/mustache": "^4.0.1",
     "@types/prompts": "^2.0.8",
     "@types/tar": "^4.0.3",
+    "husky": "^4.2.5",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "typescript": "~3.8.3"
