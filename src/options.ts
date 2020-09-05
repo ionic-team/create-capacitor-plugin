@@ -9,6 +9,7 @@ export type Options = {
 };
 
 export interface OptionValues {
+  dir: string;
   name: string;
   'package-id': string;
   'class-name': string;
@@ -16,14 +17,15 @@ export interface OptionValues {
   author: string;
   license: string;
   description: string;
-  dir: string;
 }
 
 export type Validators = {
   [K in keyof Required<OptionValues>]: (value: any) => string | true;
 };
 
-export const OPTIONS: (keyof OptionValues)[] = [
+const CLI_ARGS = ['dir'] as const;
+
+const CLI_OPTIONS = [
   'name',
   'package-id',
   'class-name',
@@ -31,8 +33,7 @@ export const OPTIONS: (keyof OptionValues)[] = [
   'author',
   'license',
   'description',
-  'dir',
-];
+] as const;
 
 export const VALIDATORS: Validators = {
   name: value =>
@@ -70,11 +71,31 @@ export const VALIDATORS: Validators = {
   dir: value =>
     typeof value !== 'string' || value.trim().length === 0
       ? `Must provide a directory, e.g. "my-plugin"`
+      : /^\-/.test(value)
+      ? 'Directories should not start with a hyphen.'
       : true,
 };
 
-export const getOptions = (): Options =>
-  OPTIONS.reduce((opts, option) => {
+export const getOptions = (): Options => {
+  const argValues = CLI_ARGS.reduce((opts, option, i) => {
+    const value = process.argv[i + 2];
+    const validatorResult = VALIDATORS[option](value);
+
+    if (typeof validatorResult === 'string') {
+      debug(
+        `invalid positional arg: %s %O: %s`,
+        option,
+        value,
+        validatorResult,
+      );
+    }
+
+    opts[option] = validatorResult === true ? value : undefined;
+
+    return opts;
+  }, {} as Options);
+
+  const optionValues = CLI_OPTIONS.reduce((opts, option) => {
     const value = getOptionValue(process.argv, `--${option}`);
     const validatorResult = VALIDATORS[option](value);
 
@@ -86,3 +107,6 @@ export const getOptions = (): Options =>
 
     return opts;
   }, {} as Options);
+
+  return { ...argValues, ...optionValues };
+};

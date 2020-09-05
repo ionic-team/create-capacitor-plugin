@@ -9,7 +9,7 @@ Generate a new Capacitor plugin.
 ## Usage
 
 ```
-npm init @capacitor/plugin
+npm init @capacitor/plugin -- [<path>] [options]
 ```
 
 :memo: `npm init <pkg>` requires npm 6+
@@ -32,5 +32,4 @@ Separate npm options with a `--` separator, e.g. `npm init @capacitor/plugin -- 
 --author <author> ......... Author name and email (e.g. "Name <name@example.com>")
 --license <id> ............ SPDX License ID (e.g. "MIT")
 --description <text> ...... Short description of plugin features
---dir <path> .............. Path of new plugins's directory
 ```

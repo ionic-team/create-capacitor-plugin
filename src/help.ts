@@ -1,5 +1,5 @@
 const help = `
-  Usage: npm init @capacitor/plugin -- [options]
+  Usage: npm init @capacitor/plugin -- [<path>] [options]
 
   Options:
 
@@ -10,7 +10,6 @@ const help = `
     --author <author> ......... Author name and email (e.g. "Name <name@example.com>")
     --license <id> ............ SPDX License ID (e.g. "MIT")
     --description <text> ...... Short description of plugin features
-    --dir <path> .............. Path of new plugins's directory
 
     -h, --help ................ Print help, then quit
     --verbose ................. Print verbose output to stderr

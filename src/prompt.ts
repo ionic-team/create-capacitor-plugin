@@ -22,6 +22,14 @@ export const gatherDetails = (
       },
       {
         type: 'text',
+        name: 'dir',
+        message: `What directory should be used for your plugin?\n`,
+        initial: 'my-plugin',
+        validate: VALIDATORS.dir,
+        format: value => value.trim(),
+      },
+      {
+        type: 'text',
         name: 'package-id',
         message:
           `What should be the Package ID for your plugin?\n\n` +
@@ -84,14 +92,6 @@ export const gatherDetails = (
           'Enter a short description of plugin features.',
         )}\n`,
         validate: VALIDATORS.description,
-        format: value => value.trim(),
-      },
-      {
-        type: 'text',
-        name: 'dir',
-        message: `What directory should be used for your plugin?\n`,
-        initial: 'my-plugin',
-        validate: VALIDATORS.dir,
         format: value => value.trim(),
       },
     ],
