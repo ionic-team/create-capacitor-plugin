@@ -54,7 +54,7 @@ export const gatherDetails = (
       {
         type: 'text',
         name: 'repo',
-        message: `${kleur.reset('(optional)')} ${kleur.bold(
+        message: `${kleur.bold(
           'What is the repository URL for your plugin?',
         )}\n`,
         validate: VALIDATORS.repo,
@@ -89,7 +89,7 @@ export const gatherDetails = (
       {
         type: 'text',
         name: 'description',
-        message: `${kleur.reset('(optional)')} ${kleur.bold(
+        message: `${kleur.bold(
           'Enter a short description of plugin features.',
         )}\n`,
         validate: VALIDATORS.description,
