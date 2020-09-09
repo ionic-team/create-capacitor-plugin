@@ -57,17 +57,20 @@ export const VALIDATORS: Validators = {
       ? true
       : `Must be CamelCase, e.g. "Example"`,
   repo: value =>
-    typeof value !== 'string' || value.trim().length === 0
-      ? true
-      : /^https?:\/\//.test(value)
-      ? true
-      : `Must be a URL, e.g. "https://github.com/<user>/<repo>"`,
+    typeof value !== 'string' ||
+    value.trim().length === 0 ||
+    !/^https?:\/\//.test(value)
+      ? `Must be a URL, e.g. "https://github.com/<user>/<repo>"`
+      : true,
   author: () => true,
   license: value =>
     typeof value !== 'string' || value.trim().length === 0
       ? `Must provide a valid license, e.g. "MIT"`
       : true,
-  description: () => true,
+  description: value =>
+    typeof value !== 'string' || value.trim().length === 0
+      ? `Must provide a description`
+      : true,
   dir: value =>
     typeof value !== 'string' || value.trim().length === 0
       ? `Must provide a directory, e.g. "my-plugin"`
