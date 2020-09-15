@@ -15,6 +15,6 @@ const help = `
     --verbose ................. Print verbose output to stderr
 `;
 
-export const run = () => {
+export const run = (): void => {
   process.stdout.write(help);
 };

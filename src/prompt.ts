@@ -1,8 +1,9 @@
+import Debug from 'debug';
 import kleur from 'kleur';
 import prompts from 'prompts';
-import Debug from 'debug';
 
-import { VALIDATORS, OptionValues, Options } from './options';
+import type { OptionValues, Options } from './options';
+import { VALIDATORS } from './options';
 
 const debug = Debug('@capacitor/create-plugin:prompt');
 
@@ -25,7 +26,7 @@ export const gatherDetails = (
         name: 'dir',
         message: `What directory should be used for your plugin?\n`,
         // no TS support for initial as a function
-        initial: ((prev: string) => prev.replace(/^@[^\/]+\//, '')) as any,
+        initial: ((prev: string) => prev.replace(/^@[^/]+\//, '')) as any,
         validate: VALIDATORS.dir,
         format: value => value.trim(),
       },

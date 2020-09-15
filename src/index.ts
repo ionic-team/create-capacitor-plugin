@@ -1,10 +1,10 @@
-import { resolve } from 'path';
-import kleur from 'kleur';
 import Debug from 'debug';
-import * as help from './help';
+import kleur from 'kleur';
+import { resolve } from 'path';
 
 import { emoji, isTTY } from './cli';
 import { exists } from './fs';
+import * as help from './help';
 import { getOptions } from './options';
 import { gatherDetails } from './prompt';
 import { extractTemplate } from './template';
@@ -16,7 +16,7 @@ process.on('unhandledRejection', error => {
   process.exit(1);
 });
 
-export const run = async () => {
+export const run = async (): Promise<void> => {
   if (process.argv.find(arg => ['-h', '-?', '--help'].includes(arg))) {
     help.run();
     process.exit();

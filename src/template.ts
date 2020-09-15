@@ -1,9 +1,9 @@
-import tar from 'tar';
 import Mustache from 'mustache';
 import { dirname, join, resolve, sep } from 'path';
+import tar from 'tar';
 
 import { readFile, mkdir, writeFile, unlink } from './fs';
-import { OptionValues } from './options';
+import type { OptionValues } from './options';
 
 const MUSTACHE_EXTENSION = '.mustache';
 
@@ -14,12 +14,17 @@ const TEMPLATE_PATH = resolve(
   'plugin-template.tar.gz',
 );
 
-export const readPackageJson = async (p: string) => {
+export const readPackageJson = async (
+  p: string,
+): Promise<{ [key: string]: any }> => {
   const contents = await readFile(p, { encoding: 'utf8' });
   return JSON.parse(contents);
 };
 
-export const extractTemplate = async (dir: string, details: OptionValues) => {
+export const extractTemplate = async (
+  dir: string,
+  details: OptionValues,
+): Promise<void> => {
   const templateFiles: string[] = [];
   await mkdir(dir, { recursive: true });
   await tar.extract({
@@ -50,7 +55,7 @@ export const applyTemplate = async (
     license,
     description,
   }: OptionValues,
-) => {
+): Promise<void> => {
   const template = await readFile(p, { encoding: 'utf8' });
   const view = {
     CAPACITOR_VERSION: 'next',

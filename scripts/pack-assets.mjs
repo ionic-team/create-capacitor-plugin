@@ -1,5 +1,5 @@
-import tar from 'tar';
 import { resolve } from 'path';
+import tar from 'tar';
 
 import { execute } from './lib/cli.mjs';
 import { root } from './lib/repo.mjs';

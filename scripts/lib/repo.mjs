@@ -1,5 +1,5 @@
-import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 import { pipe } from './fn.mjs';
 
