@@ -1,3 +1,31 @@
 # {{{ PACKAGE_NAME }}}
 
 {{{ DESCRIPTION }}}
+
+## Scripts
+
+### `npm run build`
+
+Builds the plugin web assets.
+
+It will compile the TypeScript code from `src/` into ESM JavaScript in `dist/esm/`. These files are used in apps with bundlers when your plugin is imported.
+
+Then, Rollup will bundle the code into a single file at `dist/plugin.js`. This file is used in apps without bundlers by including it in `index.html`.
+
+### `npm run verify`
+
+Build and validate the web and native projects.
+
+This is useful to run in CI to verify the plugin builds.
+
+### `npm run lint` / `npm run fmt`
+
+Check formatting and code quality, autoformat/autofix if possible.
+
+This template is integrated with ESLint, Prettier, and SwiftLint. Using these tools is completely optional, but the [Capacitor Community](https://github.com/capacitor-community/) strives to have consistent code style and structure for easier cooperation.
+
+## Docs
+
+See the [Capacitor docs](https://capacitorjs.com/docs/plugins) for next steps.
+
+Learn more about the [Capacitor Community](https://github.com/capacitor-community/welcome).
