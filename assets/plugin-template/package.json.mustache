@@ -31,6 +31,7 @@
     "eslint": "eslint . --ext ts",
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\"",
     "swiftlint": "node-swiftlint",
+    "docgen": "docgen --api {{ CLASS }}Plugin --output-readme README.md",
     "build": "npm run clean && tsc && rollup -c rollup.config.js",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
@@ -39,6 +40,7 @@
   "devDependencies": {
     "@capacitor/android": "{{{ CAPACITOR_VERSION }}}",
     "@capacitor/core": "{{{ CAPACITOR_VERSION }}}",
+    "@capacitor/docgen": "^0.0.4",
     "@capacitor/ios": "{{{ CAPACITOR_VERSION }}}",
     "@ionic/eslint-config": "^0.2.1",
     "@ionic/prettier-config": "^1.0.0",
