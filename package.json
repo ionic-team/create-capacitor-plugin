@@ -20,6 +20,7 @@
     "build": "npm run clean && npm run pack-assets && tsc",
     "clean": "rimraf ./dist",
     "watch": "tsc -w",
+    "release": "np",
     "prepublishOnly": "npm run build"
   },
   "files": [
@@ -69,6 +70,7 @@
     "@types/tar": "^4.0.3",
     "eslint": "^7.9.0",
     "husky": "^4.2.5",
+    "np": "^6.5.0",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "typescript": "~3.8.3"
