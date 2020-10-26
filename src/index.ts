@@ -57,11 +57,32 @@ export const run = async (): Promise<void> => {
   const opts = { cwd: details.dir, stdio: 'inherit' } as const;
 
   try {
-    await runSubprocess('npm', ['install'], opts);
+    await runSubprocess('npm', ['install', '--no-package-lock'], opts);
+
+    try {
+      await runSubprocess('npm', ['run', 'fmt'], opts);
+    } catch (e) {
+      process.stderr.write(
+        `WARN: Could not format source files: ${e.message ?? e.stack ?? e}\n`,
+      );
+    }
   } catch (e) {
     process.stderr.write(
       `WARN: Could not install dependencies: ${e.message ?? e.stack ?? e}\n`,
     );
+  }
+
+  if (process.platform === 'darwin') {
+    try {
+      await runSubprocess('pod', ['install'], {
+        ...opts,
+        cwd: resolve(details.dir, 'ios'),
+      });
+    } catch (e) {
+      process.stderr.write(
+        `WARN: Could not install pods: ${e.message ?? e.stack ?? e}\n`,
+      );
+    }
   }
 
   process.stdout.write('Initializing git...\n');
