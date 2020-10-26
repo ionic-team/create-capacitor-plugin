@@ -72,6 +72,19 @@ export const run = async (): Promise<void> => {
     );
   }
 
+  if (process.platform === 'darwin') {
+    try {
+      await runSubprocess('pod', ['install'], {
+        ...opts,
+        cwd: resolve(details.dir, 'ios'),
+      });
+    } catch (e) {
+      process.stderr.write(
+        `WARN: Could not install pods: ${e.message ?? e.stack ?? e}\n`,
+      );
+    }
+  }
+
   process.stdout.write('Initializing git...\n');
 
   try {
