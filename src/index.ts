@@ -88,5 +88,15 @@ ${kleur.bold(`${tada} Capacitor plugin generated! ${tada}`)}
 
 Next steps:
   - ${kleur.cyan(`cd ${details.dir}/`)}
+  - Open ${kleur.bold('CONTRIBUTING.md')} to learn about the npm scripts
+  - Continue following these docs for plugin development: ${kleur.bold(
+    'https://capacitorjs.com/docs/plugins/workflow',
+  )}
+  - Questions? Feel free to open a discussion: ${kleur.bold(
+    'https://github.com/ionic-team/capacitor/discussions',
+  )}
+  - Learn more about the Capacitor Community: ${kleur.bold(
+    'https://github.com/capacitor-community/welcome',
+  )} 💖
 `);
 };
