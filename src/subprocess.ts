@@ -1,4 +1,5 @@
 import * as cp from 'child_process';
+import kleur from 'kleur';
 
 export const spawn = cp.spawn;
 
@@ -8,9 +9,11 @@ export const run = async (
   options: cp.SpawnOptions,
 ): Promise<void> => {
   process.stdout.write(
-    `\n> ${cmd} ${args
-      .map(arg => (arg.includes(' ') ? `"${arg}"` : arg))
-      .join(' ')}\n`,
+    `\n${kleur.cyan(
+      `> ${cmd} ${args
+        .map(arg => (arg.includes(' ') ? `"${arg}"` : arg))
+        .join(' ')}`,
+    )}\n`,
   );
 
   await wait(spawn(cmd, args, options));

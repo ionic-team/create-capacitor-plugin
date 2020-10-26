@@ -87,6 +87,6 @@ export const run = async (): Promise<void> => {
 ${kleur.bold(`${tada} Capacitor plugin generated! ${tada}`)}
 
 Next steps:
-  - ${kleur.bold(`cd ${details.dir}/`)}
+  - ${kleur.cyan(`cd ${details.dir}/`)}
 `);
 };
