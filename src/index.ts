@@ -7,6 +7,7 @@ import { exists } from './fs';
 import * as help from './help';
 import { getOptions } from './options';
 import { gatherDetails } from './prompt';
+import { run as runSubprocess } from './subprocess';
 import { extractTemplate } from './template';
 
 const debug = Debug('@capacitor/create-plugin');
@@ -51,13 +52,62 @@ export const run = async (): Promise<void> => {
 
   await extractTemplate(dir, details);
 
+  process.stdout.write('Installing dependencies. Please wait...\n');
+
+  const opts = { cwd: details.dir, stdio: 'inherit' } as const;
+
+  try {
+    await runSubprocess('npm', ['install', '--no-package-lock'], opts);
+
+    try {
+      await runSubprocess('npm', ['run', 'fmt'], opts);
+    } catch (e) {
+      process.stderr.write(
+        `WARN: Could not format source files: ${e.message ?? e.stack ?? e}\n`,
+      );
+    }
+  } catch (e) {
+    process.stderr.write(
+      `WARN: Could not install dependencies: ${e.message ?? e.stack ?? e}\n`,
+    );
+  }
+
+  if (process.platform === 'darwin') {
+    try {
+      await runSubprocess('pod', ['install'], {
+        ...opts,
+        cwd: resolve(details.dir, 'ios'),
+      });
+    } catch (e) {
+      process.stderr.write(
+        `WARN: Could not install pods: ${e.message ?? e.stack ?? e}\n`,
+      );
+    }
+  }
+
+  process.stdout.write('Initializing git...\n');
+
+  try {
+    await runSubprocess('git', ['init'], opts);
+    await runSubprocess('git', ['checkout', '-b', 'main'], opts);
+    await runSubprocess('git', ['add', '-A'], opts);
+    await runSubprocess(
+      'git',
+      ['commit', '-m', 'Initial commit', '--no-gpg-sign'],
+      opts,
+    );
+  } catch (e) {
+    process.stderr.write(
+      `WARN: Could not initialize git: ${e.message ?? e.stack ?? e}\n`,
+    );
+  }
+
   const tada = emoji('🎉', '*');
 
   process.stdout.write(`
 ${kleur.bold(`${tada} Capacitor plugin generated! ${tada}`)}
 
 Next steps:
-  - ${kleur.bold(`cd ${details.dir}/`)}
-  - install dependencies (e.g. w/ ${kleur.bold('npm install')})
+  - ${kleur.cyan(`cd ${details.dir}/`)}
 `);
 };
