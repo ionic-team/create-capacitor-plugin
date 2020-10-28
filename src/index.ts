@@ -111,7 +111,7 @@ Next steps:
   - ${kleur.cyan(`cd ${details.dir}/`)}
   - Open ${kleur.bold('CONTRIBUTING.md')} to learn about the npm scripts
   - Continue following these docs for plugin development: ${kleur.bold(
-    'https://capacitorjs.com/docs/plugins/workflow',
+    'https://capacitorjs.com/docs/v3/plugins/workflow',
   )}
   - Questions? Feel free to open a discussion: ${kleur.bold(
     'https://github.com/ionic-team/capacitor/discussions',
