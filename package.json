@@ -9,7 +9,7 @@
   },
   "main": "./dist/index.js",
   "bin": {
-    "create-capacitor-plugin": "./bin/create-capacitor-plugin"
+    "create-capacitor-plugin": "bin/create-capacitor-plugin"
   },
   "scripts": {
     "pack-assets": "node ./scripts/pack-assets.mjs",
