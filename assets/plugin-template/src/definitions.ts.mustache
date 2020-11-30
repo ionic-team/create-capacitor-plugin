@@ -1,9 +1,3 @@
-declare module '@capacitor/core' {
-  interface PluginRegistry {
-    {{ CLASS }}: {{ CLASS }}Plugin;
-  }
-}
-
 export interface {{ CLASS }}Plugin {
   echo(options: { value: string }): Promise<{ value: string }>;
 }
