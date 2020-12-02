@@ -1,18 +1,9 @@
-import type { PluginImplementations } from '@capacitor/core';
-import { Plugins, registerPlugin } from '@capacitor/core';
+import { registerPlugin } from '@capacitor/core';
 
 import type { {{{ CLASS }}}Plugin } from './definitions';
-import { {{{ CLASS }}}Web } from './web';
 
-const implementations: PluginImplementations<{{{ CLASS }}}Plugin> = {
-  android: Plugins.{{{ CLASS }}},
-  ios: Plugins.{{{ CLASS }}},
-  web: new {{{ CLASS }}}Web(),
-};
-
-const {{{ CLASS }}} = registerPlugin(
-  '{{{ CLASS }}}',
-  implementations,
-).getImplementation();
+const {{{ CLASS }}} = registerPlugin<{{{ CLASS }}}Plugin>('{{{ CLASS }}}', {
+  web: () => import('./web').then(m => new m.{{{ CLASS }}}Web()),
+});
 
 export { {{{ CLASS }}} };
