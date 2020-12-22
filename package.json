@@ -42,11 +42,6 @@
     "url": "https://github.com/ionic-team/create-capacitor-plugin/issues"
   },
   "license": "MIT",
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
-  },
   "prettier": "@ionic/prettier-config",
   "eslintConfig": {
     "extends": "@ionic/eslint-config/recommended"
@@ -69,7 +64,6 @@
     "@types/prompts": "^2.0.8",
     "@types/tar": "^4.0.3",
     "eslint": "^7.9.0",
-    "husky": "^4.2.5",
     "np": "^6.5.0",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
