@@ -1,6 +1,6 @@
 export default {
   input: 'dist/esm/index.js',
-  output: {
+  output: [{
     file: 'dist/plugin.js',
     format: 'iife',
     name: 'capacitor{{{ CLASS }}}',
@@ -10,5 +10,10 @@ export default {
     sourcemap: true,
     inlineDynamicImports: true,
   },
+  {
+    file: 'dist/index.js',
+    format: 'cjs',
+    sourcemap: true
+  }],
   external: ['@capacitor/core'],
 };
