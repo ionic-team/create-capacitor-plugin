@@ -20,7 +20,7 @@
     "build": "npm run clean && npm run pack-assets && tsc",
     "clean": "rimraf ./dist",
     "watch": "tsc -w",
-    "release": "np",
+    "release": "np --no-tests",
     "prepublishOnly": "npm run build"
   },
   "files": [
