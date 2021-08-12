@@ -2,10 +2,6 @@
 
 Generate a new Capacitor plugin.
 
-> ### :rotating_light: This is for Capacitor 3, which is in active development :rotating_light:
->
-> To create Capacitor 2 plugins, use `npx @capacitor/cli plugin:generate`. Follow Capacitor 3 development in [this issue](https://github.com/ionic-team/capacitor/issues/3133).
-
 ## Usage
 
 ```
