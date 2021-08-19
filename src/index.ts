@@ -113,6 +113,7 @@ export const run = async (): Promise<void> => {
       [
         'init',
         '@capacitor/app',
+        './example',
         '--name',
         'example',
         '--app-id',
