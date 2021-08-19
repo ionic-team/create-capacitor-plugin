@@ -103,23 +103,51 @@ export const run = async (): Promise<void> => {
     );
   }
 
-  process.stdout.write('\nCreating test application for developing plugin...\n');
+  process.stdout.write(
+    '\nCreating test application for developing plugin...\n',
+  );
 
   try {
-    await runSubprocess('npm', ['init', '@capacitor/app', '--name', 'example', '--app-id', 'com.example.plugin'], opts);
-    await runSubprocess('rm', ['-rf', './example/.git'], opts)
+    await runSubprocess(
+      'npm',
+      [
+        'init',
+        '@capacitor/app',
+        '--name',
+        'example',
+        '--app-id',
+        'com.example.plugin',
+      ],
+      opts,
+    );
+    await runSubprocess('rm', ['-rf', './example/.git'], opts);
 
     // Add newly created plugin to example app
-    const appPackageJsonStr = readFileSync(resolve(details.dir, 'example', 'package.json'), 'utf8')
+    const appPackageJsonStr = readFileSync(
+      resolve(details.dir, 'example', 'package.json'),
+      'utf8',
+    );
     const appPackageJsonObj = JSON.parse(appPackageJsonStr);
-    appPackageJsonObj.dependencies[details.name] = "file:.."
-    writeFileSync(resolve(details.dir, 'example', 'package.json'), JSON.stringify(appPackageJsonObj, null, 2))
+    appPackageJsonObj.dependencies[details.name] = 'file:..';
+    writeFileSync(
+      resolve(details.dir, 'example', 'package.json'),
+      JSON.stringify(appPackageJsonObj, null, 2),
+    );
 
     // Install packages and add ios and android apps
-    await runSubprocess('npm', ['install', '--no-package-lock', '--prefix', 'example'], opts);
-    await runSubprocess('npx', ['cap', 'add', 'ios'], { ...opts, cwd: resolve(details.dir, 'example') });
-    await runSubprocess('npx', ['cap', 'add', 'android'], { ...opts, cwd: resolve(details.dir, 'example'), });
-    
+    await runSubprocess(
+      'npm',
+      ['install', '--no-package-lock', '--prefix', 'example'],
+      opts,
+    );
+    await runSubprocess('npx', ['cap', 'add', 'ios'], {
+      ...opts,
+      cwd: resolve(details.dir, 'example'),
+    });
+    await runSubprocess('npx', ['cap', 'add', 'android'], {
+      ...opts,
+      cwd: resolve(details.dir, 'example'),
+    });
   } catch (e) {
     process.stderr.write(
       `WARN: Could not create test application: ${e.message ?? e.stack ?? e}\n`,
