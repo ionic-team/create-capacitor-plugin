@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, rmdirSync, writeFileSync } from 'fs';
 import kleur from 'kleur';
 import { resolve } from 'path';
 
@@ -122,7 +122,8 @@ export const run = async (): Promise<void> => {
       ],
       opts,
     );
-    await runSubprocess('rm', ['-rf', './example/.git'], opts);
+    // TODO: rmdirSync is deprecated. Use fs.rm() (added in: v14.14.0)
+    rmdirSync(resolve(details.dir, '.git'), { recursive: true })
 
     // Add newly created plugin to example app
     const appPackageJsonStr = readFileSync(
