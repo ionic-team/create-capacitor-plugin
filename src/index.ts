@@ -123,7 +123,7 @@ export const run = async (): Promise<void> => {
       opts,
     );
     // TODO: rmdirSync is deprecated. Use fs.rm() (added in: v14.14.0)
-    rmdirSync(resolve(details.dir, '.git'), { recursive: true })
+    rmdirSync(resolve(details.dir, '.git'), { recursive: true });
 
     // Add newly created plugin to example app
     const appPackageJsonStr = readFileSync(
