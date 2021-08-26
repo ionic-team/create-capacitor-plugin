@@ -86,23 +86,6 @@ export const run = async (): Promise<void> => {
     }
   }
 
-  process.stdout.write('Initializing git...\n');
-
-  try {
-    await runSubprocess('git', ['init'], opts);
-    await runSubprocess('git', ['checkout', '-b', 'main'], opts);
-    await runSubprocess('git', ['add', '-A'], opts);
-    await runSubprocess(
-      'git',
-      ['commit', '-m', 'Initial commit', '--no-gpg-sign'],
-      opts,
-    );
-  } catch (e) {
-    process.stderr.write(
-      `WARN: Could not initialize git: ${e.message ?? e.stack ?? e}\n`,
-    );
-  }
-
   process.stdout.write(
     '\nCreating test application for developing plugin...\n',
   );
@@ -154,6 +137,23 @@ export const run = async (): Promise<void> => {
   } catch (e) {
     process.stderr.write(
       `WARN: Could not create test application: ${e.message ?? e.stack ?? e}\n`,
+    );
+  }
+
+  process.stdout.write('Initializing git...\n');
+
+  try {
+    await runSubprocess('git', ['init'], opts);
+    await runSubprocess('git', ['checkout', '-b', 'main'], opts);
+    await runSubprocess('git', ['add', '-A'], opts);
+    await runSubprocess(
+      'git',
+      ['commit', '-m', 'Initial commit', '--no-gpg-sign'],
+      opts,
+    );
+  } catch (e) {
+    process.stderr.write(
+      `WARN: Could not initialize git: ${e.message ?? e.stack ?? e}\n`,
     );
   }
 
