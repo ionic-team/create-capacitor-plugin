@@ -52,7 +52,7 @@
     "kleur": "^4.0.3",
     "mustache": "^4.0.1",
     "prompts": "^2.3.2",
-    "tar": "^6.0.2",
+    "tar": "^6.1.11",
     "tslib": "^2.0.1"
   },
   "devDependencies": {
