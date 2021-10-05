@@ -125,7 +125,7 @@ export const run = async (): Promise<void> => {
       opts,
     );
 
-  // Build newly created plugin and move into the example folder
+    // Build newly created plugin and move into the example folder
     await runSubprocess('npm', ['run', 'build'], opts);
 
     // remove existing web example
@@ -137,7 +137,7 @@ export const run = async (): Promise<void> => {
 
     // Copy over built plugin
     const builtPluginFile = resolve(details.dir, 'dist', 'plugin.js');
-    copyFileSync(builtPluginFile, resolve(wwwDir, 'js', 'plugin.js'))
+    copyFileSync(builtPluginFile, resolve(wwwDir, 'js', 'plugin.js'));
 
     // Add iOS
     await runSubprocess('npx', ['cap', 'add', 'ios'], {

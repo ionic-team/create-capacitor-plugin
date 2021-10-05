@@ -31,7 +31,7 @@ export const readPackageJson = async (
 export const extractTemplate = async (
   dir: string,
   details: OptionValues,
-  type: 'PLUGIN_TEMPLATE' | 'WWW_TEMPLATE'
+  type: 'PLUGIN_TEMPLATE' | 'WWW_TEMPLATE',
 ): Promise<void> => {
   const templateFiles: string[] = [];
   await mkdir(dir, { recursive: true });
