@@ -14,6 +14,13 @@ const TEMPLATE_PATH = resolve(
   'plugin-template.tar.gz',
 );
 
+const WWW_TEMPLATE_PATH = resolve(
+  __dirname,
+  '..',
+  'assets',
+  'www-template.tar.gz',
+);
+
 export const readPackageJson = async (
   p: string,
 ): Promise<{ [key: string]: any }> => {
@@ -24,11 +31,12 @@ export const readPackageJson = async (
 export const extractTemplate = async (
   dir: string,
   details: OptionValues,
+  type: 'PLUGIN_TEMPLATE' | 'WWW_TEMPLATE'
 ): Promise<void> => {
   const templateFiles: string[] = [];
   await mkdir(dir, { recursive: true });
   await tar.extract({
-    file: TEMPLATE_PATH,
+    file: type === 'PLUGIN_TEMPLATE' ? TEMPLATE_PATH : WWW_TEMPLATE_PATH,
     cwd: dir,
     filter: p => {
       if (p.endsWith(MUSTACHE_EXTENSION)) {

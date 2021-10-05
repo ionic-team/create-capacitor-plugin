@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { readFileSync, rmdirSync, writeFileSync } from 'fs';
+import { readFileSync, copyFileSync, rmdirSync, writeFileSync } from 'fs';
 import kleur from 'kleur';
 import { resolve } from 'path';
 
@@ -51,7 +51,7 @@ export const run = async (): Promise<void> => {
     process.exit(1);
   }
 
-  await extractTemplate(dir, details);
+  await extractTemplate(dir, details, 'PLUGIN_TEMPLATE');
 
   process.stdout.write('Installing dependencies. Please wait...\n');
 
@@ -124,10 +124,28 @@ export const run = async (): Promise<void> => {
       ['install', '--no-package-lock', '--prefix', 'example'],
       opts,
     );
+
+  // Build newly created plugin and move into the example folder
+    await runSubprocess('npm', ['run', 'build'], opts);
+
+    // remove existing web example
+    const wwwDir = resolve(dir, 'example', 'www');
+    rmdirSync(resolve(wwwDir), { recursive: true });
+
+    // Use www template
+    await extractTemplate(wwwDir, details, 'WWW_TEMPLATE');
+
+    // Copy over built plugin
+    const builtPluginFile = resolve(details.dir, 'dist', 'plugin.js');
+    copyFileSync(builtPluginFile, resolve(wwwDir, 'js', 'plugin.js'))
+
+    // Add iOS
     await runSubprocess('npx', ['cap', 'add', 'ios'], {
       ...opts,
       cwd: resolve(details.dir, 'example'),
     });
+
+    // Add Android
     await runSubprocess('npx', ['cap', 'add', 'android'], {
       ...opts,
       cwd: resolve(details.dir, 'example'),
