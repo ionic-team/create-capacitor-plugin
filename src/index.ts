@@ -135,9 +135,17 @@ export const run = async (): Promise<void> => {
     // Use www template
     await extractTemplate(wwwDir, details, 'WWW_TEMPLATE');
 
-    // Copy over built plugin
+    // Copy over built plugin and capacitor runtime
     const builtPluginFile = resolve(details.dir, 'dist', 'plugin.js');
     copyFileSync(builtPluginFile, resolve(wwwDir, 'js', 'plugin.js'));
+    await runSubprocess(
+      'npx',
+      ['cap', 'copy'],
+      {
+        cwd: resolve(opts.cwd, 'example'),
+        stdio: opts.stdio,
+      },
+    );
 
     // Add iOS
     await runSubprocess('npx', ['cap', 'add', 'ios'], {

@@ -17,7 +17,8 @@ You can also try the following methods to use this package:
 - `npm install -g @capacitor/create-plugin && create-capacitor-plugin`
 
 ### Example Apps
-As of the `0.8.0` release, example apps for testing are included when initializing a new plugin. To use these templates, you can open the `example/android` folder or the `example/ios/App/App.xcworkspace` folder for Android and iOS respectively. Anything in the `example` folder will be excluded when publishing to npm.
+
+As of the `0.8.0` release, example apps for testing are included when initializing a new plugin. To use these templates, you can open the `npx cap open android` or `npx cap open ios` command for Android and iOS respectively. Anything in the `example` folder will be excluded when publishing to npm.
 
 ### Options
 
