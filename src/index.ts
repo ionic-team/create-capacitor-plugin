@@ -1,4 +1,5 @@
 import Debug from 'debug';
+import { readFileSync, copyFileSync, rmdirSync, writeFileSync } from 'fs';
 import kleur from 'kleur';
 import { resolve } from 'path';
 
@@ -50,7 +51,7 @@ export const run = async (): Promise<void> => {
     process.exit(1);
   }
 
-  await extractTemplate(dir, details);
+  await extractTemplate(dir, details, 'PLUGIN_TEMPLATE');
 
   process.stdout.write('Installing dependencies. Please wait...\n');
 
@@ -83,6 +84,80 @@ export const run = async (): Promise<void> => {
         `WARN: Could not install pods: ${e.message ?? e.stack ?? e}\n`,
       );
     }
+  }
+
+  process.stdout.write(
+    '\nCreating test application for developing plugin...\n',
+  );
+
+  try {
+    await runSubprocess(
+      'npm',
+      [
+        'init',
+        '@capacitor/app',
+        'example',
+        '--',
+        '--name',
+        'example',
+        '--app-id',
+        'com.example.plugin',
+      ],
+      opts,
+    );
+
+    // Add newly created plugin to example app
+    const appPackageJsonStr = readFileSync(
+      resolve(details.dir, 'example', 'package.json'),
+      'utf8',
+    );
+    const appPackageJsonObj = JSON.parse(appPackageJsonStr);
+    appPackageJsonObj.dependencies[details.name] = 'file:..';
+    writeFileSync(
+      resolve(details.dir, 'example', 'package.json'),
+      JSON.stringify(appPackageJsonObj, null, 2),
+    );
+
+    // Install packages and add ios and android apps
+    await runSubprocess(
+      'npm',
+      ['install', '--no-package-lock', '--prefix', 'example'],
+      opts,
+    );
+
+    // Build newly created plugin and move into the example folder
+    await runSubprocess('npm', ['run', 'build'], opts);
+
+    // remove existing web example
+    const wwwDir = resolve(dir, 'example', 'www');
+    rmdirSync(resolve(wwwDir), { recursive: true });
+
+    // Use www template
+    await extractTemplate(wwwDir, details, 'WWW_TEMPLATE');
+
+    // Copy over built plugin and capacitor runtime
+    const builtPluginFile = resolve(details.dir, 'dist', 'plugin.js');
+    copyFileSync(builtPluginFile, resolve(wwwDir, 'js', 'plugin.js'));
+    await runSubprocess('npx', ['cap', 'copy'], {
+      cwd: resolve(opts.cwd, 'example'),
+      stdio: opts.stdio,
+    });
+
+    // Add iOS
+    await runSubprocess('npx', ['cap', 'add', 'ios'], {
+      ...opts,
+      cwd: resolve(details.dir, 'example'),
+    });
+
+    // Add Android
+    await runSubprocess('npx', ['cap', 'add', 'android'], {
+      ...opts,
+      cwd: resolve(details.dir, 'example'),
+    });
+  } catch (e) {
+    process.stderr.write(
+      `WARN: Could not create test application: ${e.message ?? e.stack ?? e}\n`,
+    );
   }
 
   process.stdout.write('Initializing git...\n');
