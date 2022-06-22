@@ -66,7 +66,7 @@ export const applyTemplate = async (
 ): Promise<void> => {
   const template = await readFile(p, { encoding: 'utf8' });
   const view = {
-    CAPACITOR_VERSION: '^3.0.0',
+    CAPACITOR_VERSION: 'next',
     PACKAGE_NAME: name,
     PACKAGE_ID: packageId,
     NATIVE_NAME: packageNameToNative(name),
