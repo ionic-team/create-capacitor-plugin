@@ -7,6 +7,8 @@ import type { OptionValues } from './options';
 
 const MUSTACHE_EXTENSION = '.mustache';
 
+export const CAPACITOR_VERSION = '^4.0.0';
+
 const TEMPLATE_PATH = resolve(
   __dirname,
   '..',
@@ -66,7 +68,7 @@ export const applyTemplate = async (
 ): Promise<void> => {
   const template = await readFile(p, { encoding: 'utf8' });
   const view = {
-    CAPACITOR_VERSION: '^4.0.0',
+    CAPACITOR_VERSION: CAPACITOR_VERSION,
     PACKAGE_NAME: name,
     PACKAGE_ID: packageId,
     NATIVE_NAME: packageNameToNative(name),
