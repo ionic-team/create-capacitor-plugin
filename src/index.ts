@@ -9,7 +9,7 @@ import * as help from './help';
 import { getOptions } from './options';
 import { gatherDetails } from './prompt';
 import { run as runSubprocess } from './subprocess';
-import { extractTemplate } from './template';
+import { CAPACITOR_VERSION, extractTemplate } from './template';
 
 const debug = Debug('@capacitor/create-plugin');
 
@@ -113,6 +113,9 @@ export const run = async (): Promise<void> => {
     );
     const appPackageJsonObj = JSON.parse(appPackageJsonStr);
     appPackageJsonObj.dependencies[details.name] = 'file:..';
+    appPackageJsonObj.dependencies['@capacitor/ios'] = CAPACITOR_VERSION;
+    appPackageJsonObj.dependencies['@capacitor/android'] = CAPACITOR_VERSION;
+
     writeFileSync(
       resolve(details.dir, 'example', 'package.json'),
       JSON.stringify(appPackageJsonObj, null, 2),
