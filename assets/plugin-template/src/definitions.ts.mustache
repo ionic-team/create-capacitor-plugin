@@ -1,3 +1,5 @@
-export interface {{ CLASS }}Plugin {
+import { Plugin } from '@capacitor/core'
+
+export interface {{ CLASS }}Plugin extends Plugin {
   echo(options: { value: string }): Promise<{ value: string }>;
 }
