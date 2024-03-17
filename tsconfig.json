@@ -2,14 +2,15 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "importHelpers": true,
-    "lib": ["es2019"],
+    "lib": ["es2022"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitHelpers": true,
     "outDir": "dist",
     "pretty": true,
     "strict": true,
-    "target": "es2019"
+    "target": "es2022",
+    "useUnknownInCatchVariables": false
   },
   "files": [
     "src/index.ts"

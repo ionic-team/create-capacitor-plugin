@@ -7,7 +7,7 @@ import type { OptionValues } from './options';
 
 const MUSTACHE_EXTENSION = '.mustache';
 
-export const CAPACITOR_VERSION = '^5.0.0';
+export const CAPACITOR_VERSION = '^5.7.3';
 
 const TEMPLATE_PATH = resolve(
   __dirname,
