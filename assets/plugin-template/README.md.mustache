@@ -4,8 +4,21 @@
 
 ## Install
 
+To use npm
+
 ```bash
 npm install {{{ PACKAGE_NAME }}}
+````
+
+To use yarn
+
+```bash
+yarn add {{{ PACKAGE_NAME }}}
+```
+
+Sync native files
+
+```bash
 npx cap sync
 ```
 
@@ -17,3 +30,66 @@ npx cap sync
 <!-- run docgen to generate docs from the source -->
 <!-- More info: https://github.com/ionic-team/capacitor-docgen -->
 </docgen-api>
+
+iOS Platform: No further action required.
+
+Android Platform: Register the plugin in your main activity:
+
+<details>
+<summary>Android Platform - Java</summary>
+
+```java
+import android.os.Bundle;
+import com.getcapacitor.BridgeActivity;
+import com.getcapacitor.Plugin;
+import {{ PACKAGE_ID }}.{{ CLASS }}Plugin;
+
+public class MainActivity extends BridgeActivity {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Initializes the Bridge
+        this.init(
+            savedInstanceState,
+            new ArrayList<Class<? extends Plugin>>() {
+                {
+                // Additional plugins you've installed go here
+                // Ex: add(TotallyAwesomePlugin.class);
+                add({{ CLASS }}Plugin.class);
+                }
+            }
+        );
+    }
+}
+```
+</details>
+
+<details>
+<summary>Android Platform - Kotlin</summary>
+
+```kotlin
+import android.os.Bundle
+import com.getcapacitor.BridgeActivity
+import com.getcapacitor.Plugin
+import {{ PACKAGE_ID }}.{{ CLASS }}Plugin
+
+class MainActivity : BridgeActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+            // Initializes the Bridge
+            this.init(
+                savedInstanceState,
+                arrayListOf<Class<out Plugin>>(
+                // Additional plugins you've installed go here
+                // Ex: TotallyAwesomePlugin::class.java,
+                {{ CLASS }}Plugin::class.java
+            )
+        )
+    }
+}
+```
+</details>

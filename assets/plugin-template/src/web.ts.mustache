@@ -1,8 +1,22 @@
+/**
+ * @file web.ts
+ * This file contains the web implementation of the {{{ CLASS }}}Plugin.
+ */
 import { WebPlugin } from '@capacitor/core';
 
 import type { {{{ CLASS }}}Plugin } from './definitions';
 
+/**
+ * Class representing the web implementation of the {{ CLASS }}Plugin.
+ * Extends the WebPlugin class and implements the {{ CLASS }}Plugin interface.
+ */
 export class {{{ CLASS }}}Web extends WebPlugin implements {{{ CLASS }}}Plugin {
+
+  /**
+   * Echoes a value back for the web platform.
+   * @param options - An object containing a `value` property.
+   * @returns A promise resolving to an object with the echoed value.
+   */
   async echo(options: { value: string }): Promise<{ value: string }> {
     console.log('ECHO', options);
     return options;

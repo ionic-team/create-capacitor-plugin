@@ -1,10 +1,20 @@
+/**
+ * @file index.ts
+ * This file exports the {{{ CLASS }}}Plugin and registers it with Capacitor.
+ */
 import { registerPlugin } from '@capacitor/core';
 
 import type { {{{ CLASS }}}Plugin } from './definitions';
 
+/**
+ * {{ CLASS }}Plugin instance for use in Capacitor applications.
+ * This is registered with Capacitor using the registerPlugin function.
+ */
 const {{{ CLASS }}} = registerPlugin<{{{ CLASS }}}Plugin>('{{{ CLASS }}}', {
   web: () => import('./web').then(m => new m.{{{ CLASS }}}Web()),
 });
 
 export * from './definitions';
+
+// Export the registered {{{ CLASS }}}Plugin instance.
 export { {{{ CLASS }}} };
