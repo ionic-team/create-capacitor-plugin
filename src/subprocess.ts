@@ -3,17 +3,9 @@ import kleur from 'kleur';
 
 export const spawn = cp.spawn;
 
-export const run = async (
-  cmd: string,
-  args: readonly string[],
-  options: cp.SpawnOptions,
-): Promise<void> => {
+export const run = async (cmd: string, args: readonly string[], options: cp.SpawnOptions): Promise<void> => {
   process.stdout.write(
-    `\n${kleur.cyan(
-      `> ${cmd} ${args
-        .map(arg => (arg.includes(' ') ? `"${arg}"` : arg))
-        .join(' ')}`,
-    )}\n`,
+    `\n${kleur.cyan(`> ${cmd} ${args.map((arg) => (arg.includes(' ') ? `"${arg}"` : arg)).join(' ')}`)}\n`,
   );
 
   await wait(spawn(cmd, args, options));
@@ -27,9 +19,7 @@ export const wait = async (p: cp.ChildProcess): Promise<void> => {
       if (code === 0) {
         resolve();
       } else {
-        reject(
-          new Error(`bad subprocess exit (code=${code}, signal=${signal})`),
-        );
+        reject(new Error(`bad subprocess exit (code=${code}, signal=${signal})`));
       }
     });
   });

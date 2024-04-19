@@ -13,13 +13,13 @@ import { CAPACITOR_VERSION, extractTemplate } from './template';
 
 const debug = Debug('@capacitor/create-plugin');
 
-process.on('unhandledRejection', error => {
+process.on('unhandledRejection', (error) => {
   process.stderr.write(`ERR: ${error}\n`);
   process.exit(1);
 });
 
 export const run = async (): Promise<void> => {
-  if (process.argv.find(arg => ['-h', '-?', '--help'].includes(arg))) {
+  if (process.argv.find((arg) => ['-h', '-?', '--help'].includes(arg))) {
     help.run();
     process.exit();
   }
@@ -33,9 +33,7 @@ export const run = async (): Promise<void> => {
     } else {
       process.stderr.write(
         `ERR: Refusing to prompt for missing/invalid options in non-TTY environment.\n` +
-          `See ${kleur.bold('--help')}. Run with ${kleur.bold(
-            '--verbose',
-          )} for more context.\n`,
+          `See ${kleur.bold('--help')}. Run with ${kleur.bold('--verbose')} for more context.\n`,
       );
       process.exit(1);
     }
@@ -45,9 +43,7 @@ export const run = async (): Promise<void> => {
   const dir = resolve(process.cwd(), details.dir);
 
   if (await exists(dir)) {
-    process.stderr.write(
-      `ERR: Not overwriting existing directory: ${kleur.bold(details.dir)}`,
-    );
+    process.stderr.write(`ERR: Not overwriting existing directory: ${kleur.bold(details.dir)}`);
     process.exit(1);
   }
 
@@ -62,15 +58,11 @@ export const run = async (): Promise<void> => {
 
     try {
       await runSubprocess('npm', ['run', 'fmt'], opts);
-    } catch (e) {
-      process.stderr.write(
-        `WARN: Could not format source files: ${e.message ?? e.stack ?? e}\n`,
-      );
+    } catch (e: any) {
+      process.stderr.write(`WARN: Could not format source files: ${e.message ?? e.stack ?? e}\n`);
     }
-  } catch (e) {
-    process.stderr.write(
-      `WARN: Could not install dependencies: ${e.message ?? e.stack ?? e}\n`,
-    );
+  } catch (e: any) {
+    process.stderr.write(`WARN: Could not install dependencies: ${e.message ?? e.stack ?? e}\n`);
   }
 
   if (process.platform === 'darwin') {
@@ -79,54 +71,31 @@ export const run = async (): Promise<void> => {
         ...opts,
         cwd: resolve(details.dir, 'ios'),
       });
-    } catch (e) {
-      process.stderr.write(
-        `WARN: Could not install pods: ${e.message ?? e.stack ?? e}\n`,
-      );
+    } catch (e: any) {
+      process.stderr.write(`WARN: Could not install pods: ${e.message ?? e.stack ?? e}\n`);
     }
   }
 
-  process.stdout.write(
-    '\nCreating test application for developing plugin...\n',
-  );
+  process.stdout.write('\nCreating test application for developing plugin...\n');
 
   try {
     await runSubprocess(
       'npm',
-      [
-        'init',
-        '@capacitor/app',
-        'example',
-        '--',
-        '--name',
-        'example',
-        '--app-id',
-        'com.example.plugin',
-      ],
+      ['init', '@capacitor/app', 'example', '--', '--name', 'example', '--app-id', 'com.example.plugin'],
       opts,
     );
 
     // Add newly created plugin to example app
-    const appPackageJsonStr = readFileSync(
-      resolve(details.dir, 'example', 'package.json'),
-      'utf8',
-    );
+    const appPackageJsonStr = readFileSync(resolve(details.dir, 'example', 'package.json'), 'utf8');
     const appPackageJsonObj = JSON.parse(appPackageJsonStr);
     appPackageJsonObj.dependencies[details.name] = 'file:..';
     appPackageJsonObj.dependencies['@capacitor/ios'] = CAPACITOR_VERSION;
     appPackageJsonObj.dependencies['@capacitor/android'] = CAPACITOR_VERSION;
 
-    writeFileSync(
-      resolve(details.dir, 'example', 'package.json'),
-      JSON.stringify(appPackageJsonObj, null, 2),
-    );
+    writeFileSync(resolve(details.dir, 'example', 'package.json'), JSON.stringify(appPackageJsonObj, null, 2));
 
     // Install packages and add ios and android apps
-    await runSubprocess(
-      'npm',
-      ['install', '--no-package-lock', '--prefix', 'example'],
-      opts,
-    );
+    await runSubprocess('npm', ['install', '--no-package-lock', '--prefix', 'example'], opts);
 
     // Build newly created plugin and move into the example folder
     await runSubprocess('npm', ['run', 'build'], opts);
@@ -157,10 +126,8 @@ export const run = async (): Promise<void> => {
       ...opts,
       cwd: resolve(details.dir, 'example'),
     });
-  } catch (e) {
-    process.stderr.write(
-      `WARN: Could not create test application: ${e.message ?? e.stack ?? e}\n`,
-    );
+  } catch (e: any) {
+    process.stderr.write(`WARN: Could not create test application: ${e.message ?? e.stack ?? e}\n`);
   }
 
   process.stdout.write('Initializing git...\n');
@@ -169,15 +136,9 @@ export const run = async (): Promise<void> => {
     await runSubprocess('git', ['init'], opts);
     await runSubprocess('git', ['checkout', '-b', 'main'], opts);
     await runSubprocess('git', ['add', '-A'], opts);
-    await runSubprocess(
-      'git',
-      ['commit', '-m', 'Initial commit', '--no-gpg-sign'],
-      opts,
-    );
-  } catch (e) {
-    process.stderr.write(
-      `WARN: Could not initialize git: ${e.message ?? e.stack ?? e}\n`,
-    );
+    await runSubprocess('git', ['commit', '-m', 'Initial commit', '--no-gpg-sign'], opts);
+  } catch (e: any) {
+    process.stderr.write(`WARN: Could not initialize git: ${e.message ?? e.stack ?? e}\n`);
   }
 
   const tada = emoji('🎉', '*');
@@ -188,14 +149,8 @@ ${kleur.bold(`${tada} Capacitor plugin generated! ${tada}`)}
 Next steps:
   - ${kleur.cyan(`cd ${details.dir}/`)}
   - Open ${kleur.bold('CONTRIBUTING.md')} to learn about the npm scripts
-  - Continue following these docs for plugin development: ${kleur.bold(
-    'https://capacitorjs.com/docs/plugins/workflow',
-  )}
-  - Questions? Feel free to open a discussion: ${kleur.bold(
-    'https://github.com/ionic-team/capacitor/discussions',
-  )}
-  - Learn more about the Capacitor Community: ${kleur.bold(
-    'https://github.com/capacitor-community/welcome',
-  )} 💖
+  - Continue following these docs for plugin development: ${kleur.bold('https://capacitorjs.com/docs/plugins/workflow')}
+  - Questions? Feel free to open a discussion: ${kleur.bold('https://github.com/ionic-team/capacitor/discussions')}
+  - Learn more about the Capacitor Community: ${kleur.bold('https://github.com/capacitor-community/welcome')} 💖
 `);
 };
