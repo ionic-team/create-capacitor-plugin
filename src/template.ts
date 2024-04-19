@@ -33,7 +33,7 @@ export const extractTemplate = async (
       if (p.endsWith(MUSTACHE_EXTENSION)) {
         templateFiles.push(p);
       }
-      if (p.endsWith('__CLASS__Plugin/') || p.endsWith('__CLASS__PluginTests/')) {
+      if (p.endsWith('__CLASS__Plugin/') || p.endsWith('__CLASS__PluginTests/')) {
         templateFolders.push(p);
       }
       return true;
