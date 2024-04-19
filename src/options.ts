@@ -9,14 +9,14 @@ export type Options = {
 };
 
 export interface OptionValues {
-  dir: string;
-  name: string;
+  'dir': string;
+  'name': string;
   'package-id': string;
   'class-name': string;
-  repo?: string;
-  author: string;
-  license: string;
-  description: string;
+  'repo'?: string;
+  'author': string;
+  'license': string;
+  'description': string;
 }
 
 export type Validators = {
@@ -36,7 +36,7 @@ const CLI_OPTIONS = [
 ] as const;
 
 export const VALIDATORS: Validators = {
-  name: value =>
+  'name': value =>
     typeof value !== 'string' || value.trim().length === 0
       ? `Must provide a plugin name, e.g. "capacitor-plugin-example"`
       : /^(@[a-z0-9-]+\/)?[a-z0-9-]+$/.test(value)
@@ -56,22 +56,22 @@ export const VALIDATORS: Validators = {
       : /^[A-z0-9]+$/.test(value)
       ? true
       : `Must be CamelCase, e.g. "Example"`,
-  repo: value =>
+  'repo': value =>
     typeof value !== 'string' ||
     value.trim().length === 0 ||
     !/^https?:\/\//.test(value)
       ? `Must be a URL, e.g. "https://github.com/<user>/<repo>"`
       : true,
-  author: () => true,
-  license: value =>
+  'author': () => true,
+  'license': value =>
     typeof value !== 'string' || value.trim().length === 0
       ? `Must provide a valid license, e.g. "MIT"`
       : true,
-  description: value =>
+  'description': value =>
     typeof value !== 'string' || value.trim().length === 0
       ? `Must provide a description`
       : true,
-  dir: value =>
+  'dir': value =>
     typeof value !== 'string' || value.trim().length === 0
       ? `Must provide a directory, e.g. "my-plugin"`
       : /^-/.test(value)
