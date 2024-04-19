@@ -2,7 +2,7 @@ import Mustache from 'mustache';
 import { dirname, join, resolve, sep } from 'path';
 import tar from 'tar';
 
-import { readFile, mkdir, writeFile, unlink } from './fs';
+import { readFile, rmdir, mkdir, writeFile, unlink } from './fs';
 import type { OptionValues } from './options';
 
 const MUSTACHE_EXTENSION = '.mustache';
@@ -24,6 +24,7 @@ export const extractTemplate = async (
   type: 'PLUGIN_TEMPLATE' | 'WWW_TEMPLATE',
 ): Promise<void> => {
   const templateFiles: string[] = [];
+  const templateFolders: string[] = [];
   await mkdir(dir, { recursive: true });
   await tar.extract({
     file: type === 'PLUGIN_TEMPLATE' ? TEMPLATE_PATH : WWW_TEMPLATE_PATH,
@@ -32,12 +33,15 @@ export const extractTemplate = async (
       if (p.endsWith(MUSTACHE_EXTENSION)) {
         templateFiles.push(p);
       }
-
+      if (p.endsWith('__CLASS__Plugin/') || p.endsWith('__CLASS__PluginTests/')) {
+        templateFolders.push(p);
+      }
       return true;
     },
   });
 
   await Promise.all(templateFiles.map((p) => resolve(dir, p)).map((p) => applyTemplate(p, details)));
+  await Promise.all(templateFolders.map((p) => resolve(dir, p)).map((p) => rmdir(p)));
 };
 
 export const applyTemplate = async (
@@ -60,7 +64,7 @@ export const applyTemplate = async (
 
   const contents = Mustache.render(template, view);
   const filePath = Object.entries(view).reduce(
-    (acc, [key, value]) => (value ? acc.replace(`__${key}__`, value) : acc),
+    (acc, [key, value]) => (value ? acc.replaceAll(`__${key}__`, value) : acc),
     p.substring(0, p.length - MUSTACHE_EXTENSION.length),
   );
 
