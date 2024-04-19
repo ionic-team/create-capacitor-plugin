@@ -7,9 +7,7 @@ import { VALIDATORS } from './options';
 
 const debug = Debug('@capacitor/create-plugin:prompt');
 
-export const gatherDetails = (
-  initialOptions: Options,
-): Promise<OptionValues> => {
+export const gatherDetails = (initialOptions: Options): Promise<OptionValues> => {
   prompts.override(initialOptions);
 
   return prompts(
@@ -19,7 +17,7 @@ export const gatherDetails = (
         name: 'name',
         message: `What should be the npm package of your plugin?\n`,
         validate: VALIDATORS.name,
-        format: value => value.trim(),
+        format: (value) => value.trim(),
       },
       {
         type: 'text',
@@ -28,7 +26,7 @@ export const gatherDetails = (
         // no TS support for initial as a function
         initial: ((prev: string) => prev.replace(/^@[^/]+\//, '')) as any,
         validate: VALIDATORS.dir,
-        format: value => value.trim(),
+        format: (value) => value.trim(),
       },
       {
         type: 'text',
@@ -42,7 +40,7 @@ export const gatherDetails = (
           )}\n`,
         initial: 'com.mycompany.plugins.example',
         validate: VALIDATORS['package-id'],
-        format: value => value.trim(),
+        format: (value) => value.trim(),
       },
       {
         type: 'text',
@@ -50,23 +48,21 @@ export const gatherDetails = (
         message: `What should be the class name for your plugin?\n`,
         initial: 'Example',
         validate: VALIDATORS['class-name'],
-        format: value => value.trim(),
+        format: (value) => value.trim(),
       },
       {
         type: 'text',
         name: 'repo',
         message: `What is the repository URL for your plugin?\n`,
         validate: VALIDATORS.repo,
-        format: value => value.trim(),
+        format: (value) => value.trim(),
       },
       {
         type: 'text',
         name: 'author',
-        message: `${kleur.reset('(optional)')} ${kleur.bold(
-          'Who is the author of this plugin?',
-        )}\n`,
+        message: `${kleur.reset('(optional)')} ${kleur.bold('Who is the author of this plugin?')}\n`,
         validate: VALIDATORS.author,
-        format: value => value.trim(),
+        format: (value) => value.trim(),
       },
       {
         type: 'select',
@@ -80,7 +76,7 @@ export const gatherDetails = (
         ],
       },
       {
-        type: prev => (prev === 'other' ? 'text' : null),
+        type: (prev) => (prev === 'other' ? 'text' : null),
         name: 'license',
         message: `Enter a SPDX license identifier for your plugin.\n`,
         validate: VALIDATORS.license,
@@ -90,7 +86,7 @@ export const gatherDetails = (
         name: 'description',
         message: `Enter a short description of plugin features.\n`,
         validate: VALIDATORS.description,
-        format: value => value.trim(),
+        format: (value) => value.trim(),
       },
     ],
     {

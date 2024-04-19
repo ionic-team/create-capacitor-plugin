@@ -1,17 +1,6 @@
-export function getOptionValue(
-  args: readonly string[],
-  arg: string,
-): string | undefined;
-export function getOptionValue(
-  args: readonly string[],
-  arg: string,
-  defaultValue: string,
-): string;
-export function getOptionValue(
-  args: readonly string[],
-  arg: string,
-  defaultValue?: string,
-): string | undefined {
+export function getOptionValue(args: readonly string[], arg: string): string | undefined;
+export function getOptionValue(args: readonly string[], arg: string, defaultValue: string): string;
+export function getOptionValue(args: readonly string[], arg: string, defaultValue?: string): string | undefined {
   const i = args.indexOf(arg);
 
   if (i >= 0) {
@@ -21,8 +10,6 @@ export function getOptionValue(
   return defaultValue;
 }
 
-export const isTTY =
-  process.stdin.isTTY && process.stdout.isTTY && process.stderr.isTTY;
+export const isTTY = process.stdin.isTTY && process.stdout.isTTY && process.stderr.isTTY;
 
-export const emoji = (x: string, fallback: string): string =>
-  process.platform === 'win32' ? fallback : x;
+export const emoji = (x: string, fallback: string): string => (process.platform === 'win32' ? fallback : x);

@@ -9,23 +9,11 @@ const MUSTACHE_EXTENSION = '.mustache';
 
 export const CAPACITOR_VERSION = '^6.0.0';
 
-const TEMPLATE_PATH = resolve(
-  __dirname,
-  '..',
-  'assets',
-  'plugin-template.tar.gz',
-);
+const TEMPLATE_PATH = resolve(__dirname, '..', 'assets', 'plugin-template.tar.gz');
 
-const WWW_TEMPLATE_PATH = resolve(
-  __dirname,
-  '..',
-  'assets',
-  'www-template.tar.gz',
-);
+const WWW_TEMPLATE_PATH = resolve(__dirname, '..', 'assets', 'www-template.tar.gz');
 
-export const readPackageJson = async (
-  p: string,
-): Promise<{ [key: string]: any }> => {
+export const readPackageJson = async (p: string): Promise<{ [key: string]: any }> => {
   const contents = await readFile(p, { encoding: 'utf8' });
   return JSON.parse(contents);
 };
@@ -40,7 +28,7 @@ export const extractTemplate = async (
   await tar.extract({
     file: type === 'PLUGIN_TEMPLATE' ? TEMPLATE_PATH : WWW_TEMPLATE_PATH,
     cwd: dir,
-    filter: p => {
+    filter: (p) => {
       if (p.endsWith(MUSTACHE_EXTENSION)) {
         templateFiles.push(p);
       }
@@ -49,22 +37,12 @@ export const extractTemplate = async (
     },
   });
 
-  await Promise.all(
-    templateFiles.map(p => resolve(dir, p)).map(p => applyTemplate(p, details)),
-  );
+  await Promise.all(templateFiles.map((p) => resolve(dir, p)).map((p) => applyTemplate(p, details)));
 };
 
 export const applyTemplate = async (
   p: string,
-  {
-    name,
-    'package-id': packageId,
-    'class-name': className,
-    repo,
-    author,
-    license,
-    description,
-  }: OptionValues,
+  { name, 'package-id': packageId, 'class-name': className, repo, author, license, description }: OptionValues,
 ): Promise<void> => {
   const template = await readFile(p, { encoding: 'utf8' });
   const view = {
@@ -98,7 +76,7 @@ export function packageNameToNative(name: string): string {
     .replace(/\//g, '_')
     .replace(/-/g, '_')
     .replace(/@/g, '')
-    .replace(/_\w/g, m => m[1].toUpperCase());
+    .replace(/_\w/g, (m) => m[1].toUpperCase());
 
   return name.charAt(0).toUpperCase() + name.slice(1);
 }
