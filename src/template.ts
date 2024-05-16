@@ -1,8 +1,8 @@
+import { readFile, rmdir, mkdir, writeFile, unlink } from 'fs/promises';
 import Mustache from 'mustache';
 import { dirname, join, resolve, sep } from 'path';
 import tar from 'tar';
 
-import { readFile, rmdir, mkdir, writeFile, unlink } from 'fs/promises';
 import type { OptionValues } from './options';
 
 const MUSTACHE_EXTENSION = '.mustache';
