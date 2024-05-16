@@ -25,6 +25,7 @@
   },
   "files": [
     "assets/plugin-template.tar.gz",
+    "assets/www-template.tar.gz",
     "bin/",
     "dist/"
   ],
