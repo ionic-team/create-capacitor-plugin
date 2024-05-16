@@ -1,10 +1,9 @@
 import Debug from 'debug';
-import { readFileSync, copyFileSync, rmdirSync, writeFileSync } from 'fs';
+import { readFileSync, copyFileSync, existsSync, rmSync, writeFileSync } from 'fs';
 import kleur from 'kleur';
 import { resolve } from 'path';
 
 import { emoji, isTTY } from './cli';
-import { exists } from './fs';
 import * as help from './help';
 import { getOptions } from './options';
 import { gatherDetails } from './prompt';
@@ -42,7 +41,7 @@ export const run = async (): Promise<void> => {
   const details = await gatherDetails(options);
   const dir = resolve(process.cwd(), details.dir);
 
-  if (await exists(dir)) {
+  if (existsSync(dir)) {
     process.stderr.write(`ERR: Not overwriting existing directory: ${kleur.bold(details.dir)}`);
     process.exit(1);
   }
@@ -91,7 +90,7 @@ export const run = async (): Promise<void> => {
 
     // remove existing web example
     const wwwDir = resolve(dir, 'example', 'www');
-    rmdirSync(resolve(wwwDir), { recursive: true });
+    rmSync(resolve(wwwDir), { recursive: true, force: true });
 
     // Use www template
     await extractTemplate(wwwDir, details, 'WWW_TEMPLATE');
