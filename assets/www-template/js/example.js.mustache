@@ -1,4 +1,6 @@
-const testEcho = () => {
+import { {{ CLASS }} } from '{{ PACKAGE_NAME }}';
+
+window.testEcho = () => {
     const inputValue = document.getElementById("echoInput").value;
-    capacitor{{ CLASS }}.{{ CLASS }}.echo({ value: inputValue })
+    {{ CLASS }}.echo({ value: inputValue })
 }
