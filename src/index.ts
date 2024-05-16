@@ -69,7 +69,7 @@ export const run = async (): Promise<void> => {
   try {
     await runSubprocess(
       'npm',
-      ['init', '@capacitor/app', 'example', '--', '--name', 'example', '--app-id', 'com.example.plugin'],
+      ['init', '@capacitor/app@latest', 'example', '--', '--name', 'example', '--app-id', 'com.example.plugin'],
       opts,
     );
 
