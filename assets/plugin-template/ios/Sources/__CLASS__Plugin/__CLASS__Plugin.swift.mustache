@@ -6,7 +6,12 @@ import Capacitor
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc({{{ CLASS }}}Plugin)
-public class {{{ CLASS }}}Plugin: CAPPlugin {
+public class {{{ CLASS }}}Plugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "{{{ CLASS }}}Plugin"
+    public let jsName = "{{{ CLASS }}}"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "echo", returnType: CAPPluginReturnPromise)
+    ]
     private let implementation = {{{ CLASS }}}()
 
     @objc func echo(_ call: CAPPluginCall) {

@@ -65,17 +65,6 @@ export const run = async (): Promise<void> => {
     process.stderr.write(`WARN: Could not install dependencies: ${e.message ?? e.stack ?? e}\n`);
   }
 
-  if (process.platform === 'darwin') {
-    try {
-      await runSubprocess('pod', ['install'], {
-        ...opts,
-        cwd: resolve(details.dir, 'ios'),
-      });
-    } catch (e: any) {
-      process.stderr.write(`WARN: Could not install pods: ${e.message ?? e.stack ?? e}\n`);
-    }
-  }
-
   process.stdout.write('\nCreating test application for developing plugin...\n');
 
   try {
