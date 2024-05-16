@@ -89,7 +89,7 @@ export const run = async (): Promise<void> => {
     await runSubprocess('npm', ['run', 'build'], opts);
 
     // remove existing web example
-    const wwwDir = resolve(dir, 'example', 'www');
+    const wwwDir = resolve(dir, 'example', 'src');
     rmSync(resolve(wwwDir), { recursive: true, force: true });
 
     // Use www template
