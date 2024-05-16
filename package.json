@@ -1,6 +1,6 @@
 {
   "name": "@capacitor/create-plugin",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Generate a new Capacitor plugin",
   "author": "Ionic Team <hi@ionicframework.com>",
   "homepage": "https://capacitorjs.com",
