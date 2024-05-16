@@ -99,7 +99,7 @@ export const run = async (): Promise<void> => {
       cwd: resolve(opts.cwd, 'example'),
       stdio: opts.stdio,
     });
-    
+
     await runSubprocess('npx', ['cap', 'copy'], {
       cwd: resolve(opts.cwd, 'example'),
       stdio: opts.stdio,
