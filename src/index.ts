@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { readFileSync, copyFileSync, existsSync, rmSync, writeFileSync } from 'fs';
+import { readFileSync, existsSync, rmSync, writeFileSync } from 'fs';
 import kleur from 'kleur';
 import { resolve } from 'path';
 
