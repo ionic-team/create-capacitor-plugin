@@ -69,52 +69,52 @@ export const run = async (): Promise<void> => {
   try {
     await runSubprocess(
       'npm',
-      ['init', '@capacitor/app@latest', 'example', '--', '--name', 'example', '--app-id', 'com.example.plugin'],
+      ['init', '@capacitor/app@latest', 'example-app', '--', '--name', 'example-app', '--app-id', 'com.example.plugin'],
       opts,
     );
 
     // Add newly created plugin to example app
-    const appPackageJsonStr = readFileSync(resolve(details.dir, 'example', 'package.json'), 'utf8');
+    const appPackageJsonStr = readFileSync(resolve(details.dir, 'example-app', 'package.json'), 'utf8');
     const appPackageJsonObj = JSON.parse(appPackageJsonStr);
     appPackageJsonObj.dependencies[details.name] = 'file:..';
     appPackageJsonObj.dependencies['@capacitor/ios'] = CAPACITOR_VERSION;
     appPackageJsonObj.dependencies['@capacitor/android'] = CAPACITOR_VERSION;
 
-    writeFileSync(resolve(details.dir, 'example', 'package.json'), JSON.stringify(appPackageJsonObj, null, 2));
+    writeFileSync(resolve(details.dir, 'example-app', 'package.json'), JSON.stringify(appPackageJsonObj, null, 2));
 
     // Install packages and add ios and android apps
-    await runSubprocess('npm', ['install', '--no-package-lock', '--prefix', 'example'], opts);
+    await runSubprocess('npm', ['install', '--no-package-lock', '--prefix', 'example-app'], opts);
 
-    // Build newly created plugin and move into the example folder
+    // Build newly created plugin and move into the example-app folder
     await runSubprocess('npm', ['run', 'build'], opts);
 
-    // remove existing web example
-    const wwwDir = resolve(dir, 'example', 'src');
+    // remove existing web example-app
+    const wwwDir = resolve(dir, 'example-app', 'src');
     rmSync(resolve(wwwDir), { recursive: true, force: true });
 
     // Use www template
     await extractTemplate(wwwDir, details, 'WWW_TEMPLATE');
 
     await runSubprocess('npm', ['run', 'build'], {
-      cwd: resolve(opts.cwd, 'example'),
+      cwd: resolve(opts.cwd, 'example-app'),
       stdio: opts.stdio,
     });
 
     await runSubprocess('npx', ['cap', 'copy'], {
-      cwd: resolve(opts.cwd, 'example'),
+      cwd: resolve(opts.cwd, 'example-app'),
       stdio: opts.stdio,
     });
 
     // Add iOS
     await runSubprocess('npx', ['cap', 'add', 'ios'], {
       ...opts,
-      cwd: resolve(details.dir, 'example'),
+      cwd: resolve(details.dir, 'example-app'),
     });
 
     // Add Android
     await runSubprocess('npx', ['cap', 'add', 'android'], {
       ...opts,
-      cwd: resolve(details.dir, 'example'),
+      cwd: resolve(details.dir, 'example-app'),
     });
   } catch (e: any) {
     process.stderr.write(`WARN: Could not create test application: ${e.message ?? e.stack ?? e}\n`);
