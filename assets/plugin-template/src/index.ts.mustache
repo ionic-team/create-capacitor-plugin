@@ -3,7 +3,7 @@ import { registerPlugin } from '@capacitor/core';
 import type { {{{ CLASS }}}Plugin } from './definitions';
 
 const {{{ CLASS }}} = registerPlugin<{{{ CLASS }}}Plugin>('{{{ CLASS }}}', {
-  web: () => import('./web').then(m => new m.{{{ CLASS }}}Web()),
+  web: () => import('./web').then((m) => new m.{{{ CLASS }}}Web()),
 });
 
 export * from './definitions';
