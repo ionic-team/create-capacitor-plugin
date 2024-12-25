@@ -3,26 +3,38 @@ ext {
     androidxAppCompatVersion = project.hasProperty('androidxAppCompatVersion') ? rootProject.ext.androidxAppCompatVersion : '1.7.0'
     androidxJunitVersion = project.hasProperty('androidxJunitVersion') ? rootProject.ext.androidxJunitVersion : '1.2.1'
     androidxEspressoCoreVersion = project.hasProperty('androidxEspressoCoreVersion') ? rootProject.ext.androidxEspressoCoreVersion : '3.6.1'
+{{ #IS_KOTLIN }}
+    androidxCoreKTXVersion = project.hasProperty('androidxCoreKTXVersion') ? rootProject.ext.androidxCoreKTXVersion : '1.15.0'
+{{ /IS_KOTLIN }}
 }
 
 buildscript {
+{{ #IS_KOTLIN }}
+    ext.kotlin_version = project.hasProperty("kotlin_version") ? rootProject.ext.kotlin_version : '1.9.25'
+{{ /IS_KOTLIN }}
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.7.2'
+        classpath 'com.android.tools.build:gradle:8.7.3'
+{{ #IS_KOTLIN }}
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+{{ /IS_KOTLIN }}
     }
 }
 
 apply plugin: 'com.android.library'
+{{ #IS_KOTLIN }}
+apply plugin: 'kotlin-android'
+{{ /IS_KOTLIN }}
 
 android {
     namespace "{{ PACKAGE_ID }}"
-    compileSdk project.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 35
+    compileSdk project.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion as Integer : 35
     defaultConfig {
-        minSdkVersion project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 23
-        targetSdkVersion project.hasProperty('targetSdkVersion') ? rootProject.ext.targetSdkVersion : 35
+        minSdkVersion project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion as Integer : 23
+        targetSdkVersion project.hasProperty('targetSdkVersion') ? rootProject.ext.targetSdkVersion as Integer : 35
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -52,6 +64,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':capacitor-android')
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+{{ #IS_KOTLIN }}
+    implementation "androidx.core:core-ktx:$androidxCoreKTXVersion"
+{{ /IS_KOTLIN }}
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"

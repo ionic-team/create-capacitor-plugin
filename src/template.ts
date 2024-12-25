@@ -1,4 +1,4 @@
-import { readFile, rmdir, mkdir, writeFile, unlink } from 'fs/promises';
+import { readFile, mkdir, writeFile, unlink, readdir, rm } from 'fs/promises';
 import Mustache from 'mustache';
 import { dirname, join, resolve, sep } from 'path';
 import tar from 'tar';
@@ -25,14 +25,22 @@ export const extractTemplate = async (
 ): Promise<void> => {
   const templateFiles: string[] = [];
   const templateFolders: string[] = [];
+  const androidLang = details['android-lang'].toLowerCase();
+
+  // Ensure the target directory exists
   await mkdir(dir, { recursive: true });
+
+  // Extract the template tarball based on the type (PLUGIN_TEMPLATE or WWW_TEMPLATE)
   await tar.extract({
     file: type === 'PLUGIN_TEMPLATE' ? TEMPLATE_PATH : WWW_TEMPLATE_PATH,
     cwd: dir,
     filter: (p) => {
+      // Collect template files and folders, applying filters as needed
       if (p.endsWith(MUSTACHE_EXTENSION)) {
         templateFiles.push(p);
       }
+
+      // Add plugin folders to the list for further processing
       if (p.endsWith('__CLASS__Plugin/') || p.endsWith('__CLASS__PluginTests/')) {
         templateFolders.push(p);
       }
@@ -41,14 +49,45 @@ export const extractTemplate = async (
   });
 
   await Promise.all(templateFiles.map((p) => resolve(dir, p)).map((p) => applyTemplate(p, details)));
-  await Promise.all(templateFolders.map((p) => resolve(dir, p)).map((p) => rmdir(p)));
+
+  await deleteUnnecessaryFolders(dir, androidLang);
+
+  await Promise.all(templateFolders.map((p) => resolve(dir, p)).map((p) => rm(p, { recursive: true })));
+};
+
+const deleteUnnecessaryFolders = async (dir: string, androidLang: string): Promise<void> => {
+  const androidFolder = join(dir, 'android', 'src', 'main');
+  const javaFolder = join(androidFolder, 'java');
+  const kotlinFolder = join(androidFolder, 'kotlin');
+
+  if (androidLang === 'kotlin' && await folderExists(javaFolder)) {
+    await rm(javaFolder, { recursive: true });
+  }
+
+  if (androidLang === 'java' && await folderExists(kotlinFolder)) {
+    await rm(kotlinFolder, { recursive: true });
+  }
+};
+
+const folderExists = async (folderPath: string): Promise<boolean> => {
+  try {
+    const files = await readdir(folderPath);
+    return files != null;
+  } catch (err) {
+    return false;
+  }
 };
 
 export const applyTemplate = async (
   p: string,
-  { name, 'package-id': packageId, 'class-name': className, repo, author, license, description }: OptionValues,
+  { name, 'package-id': packageId, 'class-name': className, repo, author, license, description, 'android-lang': androidLang }: OptionValues,
 ): Promise<void> => {
   const template = await readFile(p, { encoding: 'utf8' });
+
+  const conditionalView = {
+    KOTLIN: androidLang.toLowerCase() === 'kotlin'
+  }
+
   const view = {
     CAPACITOR_VERSION: CAPACITOR_VERSION,
     PACKAGE_NAME: name,
@@ -60,17 +99,28 @@ export const applyTemplate = async (
     AUTHOR: author,
     LICENSE: license,
     DESCRIPTION: description,
+    ANDROID_LANG: androidLang,
   };
 
-  const contents = Mustache.render(template, view);
-  const filePath = Object.entries(view).reduce(
-    (acc, [key, value]) => (value ? acc.replaceAll(`__${key}__`, value) : acc),
-    p.substring(0, p.length - MUSTACHE_EXTENSION.length),
+  // Combine the conditional view with the main view to replace the Mustache variables
+  const combinedView = { ...view, ...conditionalView };
+
+  // First render with all variables
+  const intermediateContents = Mustache.render(template, combinedView);
+
+  // Second render (optional) for further refinement if needed
+  const finalContents = Mustache.render(intermediateContents, view);
+
+  // Generate the file path by replacing Mustache placeholders with actual values
+  let filePath = p.substring(0, p.length - MUSTACHE_EXTENSION.length);
+  filePath = Object.entries(view).reduce(
+    (acc, [key, value]) => (value ? acc.replaceAll(`__${key}__`, value.toString()) : acc),
+    filePath,
   );
 
   await mkdir(dirname(filePath), { recursive: true });
   // take off the .mustache extension and write the file, then remove the template
-  await writeFile(filePath, contents, { encoding: 'utf8' });
+  await writeFile(filePath, finalContents, { encoding: 'utf8' });
 
   await unlink(p);
 };

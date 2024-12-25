@@ -30,4 +30,5 @@ As of the `0.8.0` release, example apps for testing are included when initializi
 --author <author> ......... Author name and email (e.g. "Name <name@example.com>")
 --license <id> ............ SPDX License ID (e.g. "MIT")
 --description <text> ...... Short description of plugin features
+--android-lang ............ Language for Android plugin development (e.g. "kotlin" or "java")
 ```
