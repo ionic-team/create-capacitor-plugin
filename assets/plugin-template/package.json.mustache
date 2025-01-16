@@ -52,10 +52,10 @@
     "@capacitor/core": "^{{{ CAPACITOR_VERSION }}}",
     "@capacitor/docgen": "^0.3.0",
     "@capacitor/ios": "^{{{ CAPACITOR_VERSION }}}",
-    "@ionic/eslint-config": "^0.4.0",
+    "@ionic/eslint-config": "^0.5.0",
     "@ionic/prettier-config": "^4.0.0",
     "@ionic/swiftlint-config": "^2.0.0",
-    "eslint": "^8.57.0",
+    "eslint": "^8.58.0",
     "prettier": "^3.4.2",
     "prettier-plugin-java": "^2.6.6",
     "rimraf": "^6.0.1",
@@ -69,7 +69,14 @@
   "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",
   "eslintConfig": {
-    "extends": "@ionic/eslint-config/recommended"
+    "extends": "@ionic/eslint-config/recommended",
+    "rules": {
+      "no-unsafe-optional-chaining": "error",
+      "prefer-object-has-own": "error",
+      "no-loss-of-precision": "error",
+      "no-nonoctal-decimal-escape": "error",
+      "no-useless-backreference": "error"
+    }
   },
   "capacitor": {
     "ios": {

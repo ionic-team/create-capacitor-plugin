@@ -1,0 +1,10 @@
+{
+  "extends": "@ionic/eslint-config/recommended",
+  "rules": {
+    "no-unsafe-optional-chaining": "error",
+    "prefer-object-has-own": "error",
+    "no-loss-of-precision": "error",
+    "no-nonoctal-decimal-escape": "error",
+    "no-useless-backreference": "error"
+  }
+}

@@ -16,3 +16,13 @@
 ```
 npm run release
 ```
+
+### Linting
+
+To check formatting and code quality, run the following command:
+
+```shell
+npm run lint
+```
+
+This project uses ESLint version ^8.58.0.
