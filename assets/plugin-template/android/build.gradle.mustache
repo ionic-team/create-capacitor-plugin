@@ -3,19 +3,31 @@ ext {
     androidxAppCompatVersion = project.hasProperty('androidxAppCompatVersion') ? rootProject.ext.androidxAppCompatVersion : '1.7.0'
     androidxJunitVersion = project.hasProperty('androidxJunitVersion') ? rootProject.ext.androidxJunitVersion : '1.2.1'
     androidxEspressoCoreVersion = project.hasProperty('androidxEspressoCoreVersion') ? rootProject.ext.androidxEspressoCoreVersion : '3.6.1'
+{{ #KOTLIN }}
+    androidxCoreKTXVersion = project.hasProperty('androidxCoreKTXVersion') ? rootProject.ext.androidxCoreKTXVersion : '1.15.0'
+{{ /KOTLIN }}
 }
 
 buildscript {
+{{ #KOTLIN }}
+    ext.kotlin_version = project.hasProperty("kotlin_version") ? rootProject.ext.kotlin_version : '1.9.25'
+{{ /KOTLIN }}
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.7.2'
+{{ #KOTLIN }}
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+{{ /KOTLIN }}
     }
 }
 
 apply plugin: 'com.android.library'
+{{ #KOTLIN }}
+apply plugin: 'kotlin-android'
+{{ /KOTLIN }}
 
 android {
     namespace "{{ PACKAGE_ID }}"
@@ -52,6 +64,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':capacitor-android')
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+{{ #KOTLIN }}
+    implementation "androidx.core:core-ktx:$androidxCoreKTXVersion"
+{{ /KOTLIN }}
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
