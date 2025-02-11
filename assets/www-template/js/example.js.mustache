@@ -1,4 +1,9 @@
 import { {{ CLASS }} } from '{{{ PACKAGE_NAME }}}';
+import { SplashScreen } from '@capacitor/splash-screen';
+
+window.onload = () => {
+    SplashScreen.hide()
+}
 
 window.testEcho = () => {
     const inputValue = document.getElementById("echoInput").value;
