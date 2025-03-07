@@ -82,6 +82,15 @@ export const gatherDetails = (initialOptions: Options): Promise<OptionValues> =>
         validate: VALIDATORS.license,
       },
       {
+        type: 'select',
+        name: 'android-lang',
+        message: `What language would you like to use for your Android plugin?\n`,
+        choices: [
+          { title: 'Kotlin', value: 'kotlin' },
+          { title: 'Java', value: 'java' }
+        ]
+      },
+      {
         type: 'text',
         name: 'description',
         message: `Enter a short description of plugin features.\n`,
