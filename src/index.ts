@@ -79,6 +79,8 @@ export const run = async (): Promise<void> => {
     appPackageJsonObj.dependencies[details.name] = 'file:..';
     appPackageJsonObj.dependencies['@capacitor/ios'] = CAPACITOR_VERSION;
     appPackageJsonObj.dependencies['@capacitor/android'] = CAPACITOR_VERSION;
+    delete appPackageJsonObj.dependencies['@capacitor/camera'];
+    delete appPackageJsonObj.dependencies['@capacitor/splash-screen'];
 
     writeFileSync(resolve(details.dir, 'example-app', 'package.json'), JSON.stringify(appPackageJsonObj, null, 2));
 
