@@ -17,6 +17,7 @@ export interface OptionValues {
   author: string;
   license: string;
   description: string;
+  'android-lang': string;
 }
 
 export type Validators = {
@@ -57,6 +58,8 @@ export const VALIDATORS: Validators = {
     typeof value !== 'string' || value.trim().length === 0 ? `Must provide a valid license, e.g. "MIT"` : true,
   description: (value) =>
     typeof value !== 'string' || value.trim().length === 0 ? `Must provide a description` : true,
+  'android-lang': (value) =>
+    typeof value !== 'string' || value.trim().length === 0 ? `Must provide a language, e.g. "kotlin"` : true,
   dir: (value) =>
     typeof value !== 'string' || value.trim().length === 0
       ? `Must provide a directory, e.g. "my-plugin"`
