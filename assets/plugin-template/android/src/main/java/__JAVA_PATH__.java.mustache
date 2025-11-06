@@ -1,11 +1,11 @@
 package {{ PACKAGE_ID }};
 
-import android.util.Log;
+import com.getcapacitor.Logger;
 
 public class {{ CLASS }} {
 
     public String echo(String value) {
-        Log.i("Echo", value);
+        Logger.info("Echo", value);
         return value;
     }
 }
