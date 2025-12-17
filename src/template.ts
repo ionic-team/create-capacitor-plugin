@@ -1,7 +1,7 @@
 import { readFile, rmdir, mkdir, writeFile, unlink } from 'fs/promises';
 import Mustache from 'mustache';
 import { dirname, join, resolve, sep } from 'path';
-import tar from 'tar';
+import { extract } from 'tar';
 
 import type { OptionValues } from './options';
 
@@ -26,7 +26,7 @@ export const extractTemplate = async (
   const templateFiles: string[] = [];
   const templateFolders: string[] = [];
   await mkdir(dir, { recursive: true });
-  await tar.extract({
+  await extract({
     file: type === 'PLUGIN_TEMPLATE' ? TEMPLATE_PATH : WWW_TEMPLATE_PATH,
     cwd: dir,
     filter: (p) => {
