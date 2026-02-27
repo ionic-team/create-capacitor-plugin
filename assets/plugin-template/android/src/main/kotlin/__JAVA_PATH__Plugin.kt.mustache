@@ -1,0 +1,23 @@
+package {{ PACKAGE_ID }}
+
+import com.getcapacitor.JSObject
+import com.getcapacitor.Plugin
+import com.getcapacitor.PluginCall
+import com.getcapacitor.annotation.CapacitorPlugin
+import com.getcapacitor.PluginMethod
+
+@CapacitorPlugin(name = "{{ CLASS }}")
+class {{ CLASS }}Plugin : Plugin() {
+
+    private val implementation = {{ CLASS }}()
+
+    @PluginMethod
+    fun echo(call: PluginCall) {
+        val value = call.getString("value")
+
+        val ret = JSObject().apply {
+            put("value", implementation.echo(value))
+        }
+        call.resolve(ret)
+    }
+}

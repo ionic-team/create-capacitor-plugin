@@ -17,6 +17,7 @@ export interface OptionValues {
   author: string;
   license: string;
   description: string;
+  'android-lang': string;
 }
 
 export type Validators = {
@@ -25,7 +26,16 @@ export type Validators = {
 
 const CLI_ARGS = ['dir'] as const;
 
-const CLI_OPTIONS = ['name', 'package-id', 'class-name', 'repo', 'author', 'license', 'description'] as const;
+const CLI_OPTIONS = [
+  'name',
+  'package-id',
+  'class-name',
+  'repo',
+  'author',
+  'license',
+  'description',
+  'android-lang',
+] as const;
 
 export const VALIDATORS: Validators = {
   name: (value) =>
@@ -57,6 +67,10 @@ export const VALIDATORS: Validators = {
     typeof value !== 'string' || value.trim().length === 0 ? `Must provide a valid license, e.g. "MIT"` : true,
   description: (value) =>
     typeof value !== 'string' || value.trim().length === 0 ? `Must provide a description` : true,
+  'android-lang': (value) =>
+    typeof value === 'string' && value.trim().length > 0 && /^(kotlin|kt|java)$/i.test(value)
+      ? true
+      : `Must be either "kotlin" or "java"`,
   dir: (value) =>
     typeof value !== 'string' || value.trim().length === 0
       ? `Must provide a directory, e.g. "my-plugin"`
