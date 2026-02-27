@@ -1,13 +1,13 @@
 import { readFile, rmdir, mkdir, writeFile, unlink, readdir, rm } from 'fs/promises';
 import Mustache from 'mustache';
 import { dirname, join, resolve, sep } from 'path';
-import tar from 'tar';
+import { extract } from 'tar';
 
 import type { OptionValues } from './options';
 
 const MUSTACHE_EXTENSION = '.mustache';
 
-export const CAPACITOR_VERSION = '7.2.0';
+export const CAPACITOR_VERSION = '8.0.0';
 
 const TEMPLATE_PATH = resolve(__dirname, '..', 'assets', 'plugin-template.tar.gz');
 
@@ -27,7 +27,7 @@ export const extractTemplate = async (
   const templateFolders: string[] = [];
   const androidLang = details['android-lang'].toLowerCase();
   await mkdir(dir, { recursive: true });
-  await tar.extract({
+  await extract({
     file: type === 'PLUGIN_TEMPLATE' ? TEMPLATE_PATH : WWW_TEMPLATE_PATH,
     cwd: dir,
     filter: (p) => {
