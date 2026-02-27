@@ -59,7 +59,7 @@ export const VALIDATORS: Validators = {
   description: (value) =>
     typeof value !== 'string' || value.trim().length === 0 ? `Must provide a description` : true,
   'android-lang': (value) =>
-    typeof value !== 'string' || value.trim().length === 0 ? `Must provide a language, e.g. "kotlin"` : true,
+    typeof value !== 'string' || value.trim().length === 0 ? `Must provide a language, either "kotlin" or "java"` : true,
   dir: (value) =>
     typeof value !== 'string' || value.trim().length === 0
       ? `Must provide a directory, e.g. "my-plugin"`
