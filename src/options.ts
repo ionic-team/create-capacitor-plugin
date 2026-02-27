@@ -26,7 +26,16 @@ export type Validators = {
 
 const CLI_ARGS = ['dir'] as const;
 
-const CLI_OPTIONS = ['name', 'package-id', 'class-name', 'repo', 'author', 'license', 'description'] as const;
+const CLI_OPTIONS = [
+  'name',
+  'package-id',
+  'class-name',
+  'repo',
+  'author',
+  'license',
+  'description',
+  'android-lang',
+] as const;
 
 export const VALIDATORS: Validators = {
   name: (value) =>
