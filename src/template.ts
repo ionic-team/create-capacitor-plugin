@@ -90,8 +90,7 @@ export const applyTemplate = async (
   const template = await readFile(p, { encoding: 'utf8' });
 
   const conditionalView = {
-    KOTLIN: androidLang.toLowerCase() === 'kotlin', // Set KOTLIN flag
-    // Add more flags...
+    KOTLIN: androidLang.toLowerCase() !== 'java',
   };
 
   const view = {
