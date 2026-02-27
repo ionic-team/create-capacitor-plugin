@@ -47,16 +47,21 @@ export const extractTemplate = async (
 };
 
 const deleteUnnecessaryFolders = async (dir: string, androidLang: string): Promise<void> => {
-  const androidFolder = join(dir, 'android', 'src', 'main');
-  const javaFolder = join(androidFolder, 'java');
-  const kotlinFolder = join(androidFolder, 'kotlin');
+  const androidSrcDir = join(dir, 'android', 'src');
+  const sourceSets = ['main', 'test', 'androidTest'];
 
-  if (androidLang === 'kotlin' && await folderExists(javaFolder)) {
-    await rm(javaFolder, { recursive: true });
-  }
+  for (const sourceSet of sourceSets) {
+    const sourceFolder = join(androidSrcDir, sourceSet);
+    const javaFolder = join(sourceFolder, 'java');
+    const kotlinFolder = join(sourceFolder, 'kotlin');
 
-  if (androidLang === 'java' && await folderExists(kotlinFolder)) {
-    await rm(kotlinFolder, { recursive: true });
+    if (androidLang === 'kotlin' && await folderExists(javaFolder)) {
+      await rm(javaFolder, { recursive: true });
+    }
+
+    if (androidLang === 'java' && await folderExists(kotlinFolder)) {
+      await rm(kotlinFolder, { recursive: true });
+    }
   }
 };
 
