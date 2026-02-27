@@ -1,4 +1,4 @@
-import { readFile, rmdir, mkdir, writeFile, unlink, readdir, rm } from 'fs/promises';
+import { readFile, mkdir, writeFile, unlink, readdir, rm } from 'fs/promises';
 import Mustache from 'mustache';
 import { dirname, join, resolve, sep } from 'path';
 import { extract } from 'tar';
@@ -55,11 +55,11 @@ const deleteUnnecessaryFolders = async (dir: string, androidLang: string): Promi
     const javaFolder = join(sourceFolder, 'java');
     const kotlinFolder = join(sourceFolder, 'kotlin');
 
-    if (androidLang === 'kotlin' && await folderExists(javaFolder)) {
+    if (androidLang === 'kotlin' && (await folderExists(javaFolder))) {
       await rm(javaFolder, { recursive: true });
     }
 
-    if (androidLang === 'java' && await folderExists(kotlinFolder)) {
+    if (androidLang === 'java' && (await folderExists(kotlinFolder))) {
       await rm(kotlinFolder, { recursive: true });
     }
   }
@@ -76,14 +76,23 @@ const folderExists = async (folderPath: string): Promise<boolean> => {
 
 export const applyTemplate = async (
   p: string,
-  { name, 'package-id': packageId, 'class-name': className, repo, author, license, description, 'android-lang': androidLang }: OptionValues,
+  {
+    name,
+    'package-id': packageId,
+    'class-name': className,
+    repo,
+    author,
+    license,
+    description,
+    'android-lang': androidLang,
+  }: OptionValues,
 ): Promise<void> => {
   const template = await readFile(p, { encoding: 'utf8' });
 
   const conditionalView = {
-    KOTLIN: androidLang.toLowerCase() === 'kotlin',  // Set KOTLIN flag
+    KOTLIN: androidLang.toLowerCase() === 'kotlin', // Set KOTLIN flag
     // Add more flags...
-  }
+  };
 
   const view = {
     CAPACITOR_VERSION: CAPACITOR_VERSION,

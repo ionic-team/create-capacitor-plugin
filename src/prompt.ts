@@ -87,8 +87,8 @@ export const gatherDetails = (initialOptions: Options): Promise<OptionValues> =>
         message: `What language would you like to use for your Android plugin?\n`,
         choices: [
           { title: 'Kotlin', value: 'kotlin' },
-          { title: 'Java', value: 'java' }
-        ]
+          { title: 'Java', value: 'java' },
+        ],
       },
       {
         type: 'text',
