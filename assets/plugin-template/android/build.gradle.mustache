@@ -54,6 +54,12 @@ android {
     }
 }
 
+{{ #KOTLIN }}
+kotlin {
+    jvmToolchain(21)
+}
+{{ /KOTLIN }}
+
 repositories {
     google()
     mavenCentral()
