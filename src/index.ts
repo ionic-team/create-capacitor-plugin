@@ -7,10 +7,19 @@ import { emoji, isTTY } from './cli';
 import * as help from './help';
 import { getOptions } from './options';
 import { gatherDetails } from './prompt';
-import { run as runSubprocess } from './subprocess';
+import { run as runSubprocess, runSilent } from './subprocess';
 import { CAPACITOR_VERSION, extractTemplate } from './template';
 
 const debug = Debug('@capacitor/create-plugin');
+
+const isInsideGitRepo = async (cwd: string): Promise<boolean> => {
+  try {
+    await runSilent('git', ['rev-parse', '--is-inside-work-tree'], { cwd, stdio: 'ignore' });
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
 
 process.on('unhandledRejection', (error) => {
   process.stderr.write(`ERR: ${error}\n`);
@@ -122,15 +131,21 @@ export const run = async (): Promise<void> => {
     process.stderr.write(`WARN: Could not create test application: ${e.message ?? e.stack ?? e}\n`);
   }
 
-  process.stdout.write('Initializing git...\n');
+  const isInGitRepo = await isInsideGitRepo(details.dir);
 
-  try {
-    await runSubprocess('git', ['init'], opts);
-    await runSubprocess('git', ['checkout', '-b', 'main'], opts);
-    await runSubprocess('git', ['add', '-A'], opts);
-    await runSubprocess('git', ['commit', '-m', 'Initial commit', '--no-gpg-sign'], opts);
-  } catch (e: any) {
-    process.stderr.write(`WARN: Could not initialize git: ${e.message ?? e.stack ?? e}\n`);
+  if (isInGitRepo) {
+    process.stdout.write('Skipping git initialization (already inside a git repository)...\n');
+  } else {
+    process.stdout.write('Initializing git...\n');
+
+    try {
+      await runSubprocess('git', ['init'], opts);
+      await runSubprocess('git', ['checkout', '-b', 'main'], opts);
+      await runSubprocess('git', ['add', '-A'], opts);
+      await runSubprocess('git', ['commit', '-m', 'Initial commit', '--no-gpg-sign'], opts);
+    } catch (e: any) {
+      process.stderr.write(`WARN: Could not initialize git: ${e.message ?? e.stack ?? e}\n`);
+    }
   }
 
   const tada = emoji('🎉', '*');
