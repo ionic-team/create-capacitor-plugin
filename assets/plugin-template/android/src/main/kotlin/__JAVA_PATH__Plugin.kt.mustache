@@ -13,7 +13,7 @@ class {{ CLASS }}Plugin : Plugin() {
 
     @PluginMethod
     fun echo(call: PluginCall) {
-        val value = call.getString("value")
+        val value = call.getString("value") ?: ""
 
         val ret = JSObject().apply {
             put("value", implementation.echo(value))
