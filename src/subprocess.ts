@@ -11,6 +11,10 @@ export const run = async (cmd: string, args: readonly string[], options: cp.Spaw
   await wait(spawn(cmd, args, options));
 };
 
+export const runSilent = async (cmd: string, args: readonly string[], options: cp.SpawnOptions): Promise<void> => {
+  await wait(spawn(cmd, args, options));
+};
+
 export const wait = async (p: cp.ChildProcess): Promise<void> => {
   return new Promise<void>((resolve, reject) => {
     p.on('error', reject);
