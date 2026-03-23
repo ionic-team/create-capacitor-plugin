@@ -68,7 +68,7 @@ export const VALIDATORS: Validators = {
   description: (value) =>
     typeof value !== 'string' || value.trim().length === 0 ? `Must provide a description` : true,
   'android-lang': (value) =>
-    value === undefined || value === '' || (typeof value === 'string' && /^(kotlin|kt|java)$/i.test(value))
+    value === undefined || value === '' || (typeof value === 'string' && /^(kotlin|java)$/i.test(value))
       ? true
       : `Must be either "kotlin" or "java"`,
   dir: (value) =>
