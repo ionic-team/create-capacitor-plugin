@@ -68,7 +68,7 @@ export const VALIDATORS: Validators = {
   description: (value) =>
     typeof value !== 'string' || value.trim().length === 0 ? `Must provide a description` : true,
   'android-lang': (value) =>
-    typeof value === 'string' && value.trim().length > 0 && /^(kotlin|kt|java)$/i.test(value)
+    value === undefined || value === '' || (typeof value === 'string' && /^(kotlin|java)$/i.test(value))
       ? true
       : `Must be either "kotlin" or "java"`,
   dir: (value) =>
@@ -99,6 +99,12 @@ export const getOptions = (): Options => {
 
     if (typeof validatorResult === 'string') {
       debug(`invalid option: --%s %O: %s`, option, value, validatorResult);
+
+      // 'android-lang' is not prompted, so it should fail if invalid
+      if (option === 'android-lang') {
+        process.stderr.write(`ERR: Invalid --android-lang value "${value}": ${validatorResult}\n`);
+        process.exit(1);
+      }
     }
 
     opts[option] = validatorResult === true ? value : undefined;
@@ -106,5 +112,11 @@ export const getOptions = (): Options => {
     return opts;
   }, {} as Options);
 
-  return { ...argValues, ...optionValues };
+  const allOptions = { ...argValues, ...optionValues };
+
+  if (!allOptions['android-lang']) {
+    allOptions['android-lang'] = 'java';
+  }
+
+  return allOptions;
 };
