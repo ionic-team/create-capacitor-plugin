@@ -52,16 +52,17 @@ export const gatherDetails = (initialOptions: Options): Promise<OptionValues> =>
       },
       {
         type: 'text',
-        name: 'repo',
-        message: `What is the repository URL for your plugin?\n`,
-        validate: VALIDATORS.repo,
+        name: 'author',
+        message: `${kleur.reset('(optional)')} ${kleur.bold('Who is the author of this plugin?')}\n`,
+        validate: VALIDATORS.author,
         format: (value) => value.trim(),
       },
       {
         type: 'text',
-        name: 'author',
-        message: `${kleur.reset('(optional)')} ${kleur.bold('Who is the author of this plugin?')}\n`,
-        validate: VALIDATORS.author,
+        name: 'repo',
+        message: `What is the repository URL for your plugin?\n`,
+        initial: (_prev, values) => `https://github.com/${values.author}/${values.dir}`,
+        validate: VALIDATORS.repo,
         format: (value) => value.trim(),
       },
       {
