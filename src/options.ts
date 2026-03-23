@@ -17,7 +17,7 @@ export interface OptionValues {
   author: string;
   license: string;
   description: string;
-  'android-lang'?: string;
+  'android-lang': string;
 }
 
 export type Validators = {
@@ -101,10 +101,8 @@ export const getOptions = (): Options => {
       debug(`invalid option: --%s %O: %s`, option, value, validatorResult);
 
       // 'android-lang' is not prompted, so it should fail if invalid
-      if (option === 'android-lang' && value !== undefined && value !== '') {
-        process.stderr.write(
-          `ERR: Invalid --android-lang value "${value}": ${validatorResult} (should be "kotlin" or "java")\n`,
-        );
+      if (option === 'android-lang') {
+        process.stderr.write(`ERR: Invalid --android-lang value "${value}": ${validatorResult}\n`);
         process.exit(1);
       }
     }
