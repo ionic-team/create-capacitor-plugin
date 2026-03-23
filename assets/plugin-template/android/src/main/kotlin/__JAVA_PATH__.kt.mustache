@@ -4,8 +4,8 @@ import com.getcapacitor.Logger
 
 class {{ CLASS }} {
 
-    fun echo(value: String?): String? {
-        Logger.info("Echo", value ?: "null")
+    fun echo(value: String): String {
+        Logger.info("Echo", value)
 
         return value
     }
