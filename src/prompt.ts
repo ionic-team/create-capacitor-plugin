@@ -95,8 +95,11 @@ export const gatherDetails = (initialOptions: Options): Promise<OptionValues> =>
         process.exit(1);
       },
     },
-  ).then(result => ({
-    ...result,
-    'android-lang': initialOptions['android-lang'],
-  } as OptionValues));
+  ).then(
+    (result) =>
+      ({
+        ...result,
+        'android-lang': initialOptions['android-lang'],
+      }) as OptionValues,
+  );
 };
