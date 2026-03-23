@@ -114,8 +114,11 @@ export const getOptions = (): Options => {
 
   const allOptions = { ...argValues, ...optionValues };
 
-  // Set default for android-lang if not provided
-  if (!allOptions['android-lang']) {
+  // Normalize and set default for android-lang
+  if (allOptions['android-lang']) {
+    const normalized = allOptions['android-lang'].toLowerCase();
+    allOptions['android-lang'] = normalized === 'kt' ? 'kotlin' : normalized;
+  } else {
     allOptions['android-lang'] = 'java';
   }
 
