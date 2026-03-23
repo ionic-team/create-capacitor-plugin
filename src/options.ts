@@ -17,7 +17,7 @@ export interface OptionValues {
   author: string;
   license: string;
   description: string;
-  'android-lang': string;
+  'android-lang'?: string;
 }
 
 export type Validators = {
@@ -68,7 +68,7 @@ export const VALIDATORS: Validators = {
   description: (value) =>
     typeof value !== 'string' || value.trim().length === 0 ? `Must provide a description` : true,
   'android-lang': (value) =>
-    typeof value === 'string' && value.trim().length > 0 && /^(kotlin|kt|java)$/i.test(value)
+    value === undefined || value === '' || (typeof value === 'string' && /^(kotlin|kt|java)$/i.test(value))
       ? true
       : `Must be either "kotlin" or "java"`,
   dir: (value) =>
@@ -106,5 +106,12 @@ export const getOptions = (): Options => {
     return opts;
   }, {} as Options);
 
-  return { ...argValues, ...optionValues };
+  const allOptions = { ...argValues, ...optionValues };
+
+  // Set default for android-lang if not provided
+  if (!allOptions['android-lang']) {
+    allOptions['android-lang'] = 'java';
+  }
+
+  return allOptions;
 };
