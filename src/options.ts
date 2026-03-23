@@ -99,6 +99,12 @@ export const getOptions = (): Options => {
 
     if (typeof validatorResult === 'string') {
       debug(`invalid option: --%s %O: %s`, option, value, validatorResult);
+
+      // 'android-lang' is not prompted, so it should fail if invalid
+      if (option === 'android-lang' && value !== undefined && value !== '') {
+        process.stderr.write(`ERR: Invalid --android-lang value "${value}": ${validatorResult} (should be "kotlin" or "java")\n`);
+        process.exit(1);
+      }
     }
 
     opts[option] = validatorResult === true ? value : undefined;
