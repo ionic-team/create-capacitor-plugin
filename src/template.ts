@@ -25,7 +25,7 @@ export const extractTemplate = async (
 ): Promise<void> => {
   const templateFiles: string[] = [];
   const templateFolders: string[] = [];
-  const androidLang = (details['android-lang'] || 'java').toLowerCase();
+  const androidLang = details['android-lang'].toLowerCase();
   await mkdir(dir, { recursive: true });
   await extract({
     file: type === 'PLUGIN_TEMPLATE' ? TEMPLATE_PATH : WWW_TEMPLATE_PATH,
@@ -84,7 +84,7 @@ export const applyTemplate = async (
     author,
     license,
     description,
-    'android-lang': androidLang = 'java',
+    'android-lang': androidLang,
   }: OptionValues,
 ): Promise<void> => {
   const template = await readFile(p, { encoding: 'utf8' });
