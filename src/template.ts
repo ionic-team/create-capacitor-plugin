@@ -100,7 +100,7 @@ export const applyTemplate = async (
     NATIVE_NAME: packageNameToNative(name),
     CLASS: className,
     JAVA_PATH: join(packageId.split('.').join(sep), className),
-    REPO_URL: repo ? repo.replace(/\/$/, '') : '',
+    REPO_URL: repo.replace(/\/$/, ''),
     AUTHOR: author,
     LICENSE: license,
     DESCRIPTION: description,
