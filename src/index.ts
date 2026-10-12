@@ -16,7 +16,7 @@ const isInsideGitRepo = async (cwd: string): Promise<boolean> => {
   try {
     await runSilent('git', ['rev-parse', '--is-inside-work-tree'], { cwd, stdio: 'ignore' });
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };
