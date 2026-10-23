@@ -6,6 +6,7 @@ node_modules
 Pods
 Podfile.lock
 Package.resolved
+!**/*.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 Build
 xcuserdata
 /.build
