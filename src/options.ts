@@ -13,7 +13,7 @@ export interface OptionValues {
   name: string;
   'package-id': string;
   'class-name': string;
-  repo?: string;
+  repo: string;
   author: string;
   license: string;
   description: string;
