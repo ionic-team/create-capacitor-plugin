@@ -69,7 +69,7 @@ const folderExists = async (folderPath: string): Promise<boolean> => {
   try {
     const files = await readdir(folderPath);
     return files != null;
-  } catch (err) {
+  } catch {
     return false;
   }
 };
