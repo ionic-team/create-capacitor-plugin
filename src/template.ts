@@ -7,7 +7,7 @@ import type { OptionValues } from './options';
 
 const MUSTACHE_EXTENSION = '.mustache';
 
-export const CAPACITOR_VERSION = '9.0.0-rc.0';
+export const CAPACITOR_VERSION = '9.0.0';
 
 const TEMPLATE_PATH = resolve(__dirname, '..', 'assets', 'plugin-template.tar.gz');
 
